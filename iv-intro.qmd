@@ -16,4 +16,50 @@ execute:
   echo: true
 ---
 
-# Overview
+## Setting {.small-slide}
+
+:::: {.columns}
+
+::: {.column width="70%"}
+- Suppose $\beta_1$ is the [true]{.alert} causal effect of $X_{i}$ on $Y_{i}$ in the linear regression:
+$$
+Y_{i} = \beta_0 + \beta_1 X_{i} + \varepsilon_{i}, \quad i=1, \ldots, N
+$$
+- For the least squares estimate $\hat{\beta}_{1}^{OLS}$ to be consistent for $\beta_1$ requires:
+$$
+\mathbb{E}[\varepsilon_i|X_i] = 0
+$$
+$\implies$ $X_i$ is **exogenous** and contains no additional information on $\varepsilon_i$.
+- When $\mathbb{E}[\varepsilon_i|X_i] \ne 0$, $X_i$ is **endogenous** and $\hat{\beta}_{1}^{OLS}$ is inconsistent for $\beta_{1}$.
+- Example: Effect of `EDUC` on `LWKLYWGE` [@angrist1991does], where $\text{Cov(X, U)}>0$
+:::
+
+::: {.column width="30%"}
+[Example]{.highlight .center}
+```{mermaid}
+%%| echo: false
+flowchart TD
+    X["X: EDUC"] -->|Causal effect| Y["Y: LWKLYWGE"]
+    
+    U["U: Ability"] --> X
+    U --> Y
+```
+:::
+
+::::
+
+## IV: Basic idea {.small-slide}
+
+```{mermaid}
+%%| echo: false
+flowchart TD
+    Z["Z: Instrument"] -->|Relevance| X["X: Treatment"]
+    X -->|Causal effect| Y["Y: Outcome"]
+    
+    U["U: Unobserved"] --> X
+    U --> Y
+    
+    Z -.->|No direct effect - Exclusion| Y
+```
+
+## References {.tiny-slide}
