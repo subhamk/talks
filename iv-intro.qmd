@@ -1,0 +1,19 @@
+---
+title: "Instrumental Variables"
+subtitle: "A Short Introduction"
+format:
+  dtslides-revealjs:
+    slide-number: c/t
+    chalkboard: true
+bibliography: refs.bib
+author:
+  - name: Subham Kailthya
+    orcid: 0000-0002-6961-2502
+    email: kailthya.subham@gmail.com
+    affiliations: 
+date: last-modified
+execute:
+  echo: true
+---
+
+# Overview
