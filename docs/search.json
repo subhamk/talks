@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "iv-intro.html#setting",
+    "href": "iv-intro.html#setting",
+    "title": "Instrumental Variables",
+    "section": "Setting",
+    "text": "Setting\n\n\n\nSuppose \\(\\beta_1\\) is the true causal effect of \\(X_{i}\\) on \\(Y_{i}\\) in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + \\varepsilon_{i}, \\quad i=1, \\ldots, N\n\\]\nFor the least squares estimate \\(\\hat{\\beta}_{1}^{OLS}\\) to be consistent for \\(\\beta_1\\) requires: \\[\n\\mathbb{E}[\\varepsilon_i|X_i] = 0\n\\] \\(\\implies\\) \\(X_i\\) is exogenous and contains no additional information on \\(\\varepsilon_i\\).\nWhen \\(\\mathbb{E}[\\varepsilon_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and \\(\\hat{\\beta}_{1}^{OLS}\\) is inconsistent for \\(\\beta_{1}\\).\nExample: Effect of EDUC on LWKLYWGE (Angrist and Krueger 1991), where \\(\\text{Cov(X, U)}&gt;0\\)\n\n\nExample\n\n\n\n\n\nflowchart TD\n    X[\"X: EDUC\"] --&gt;|Causal effect| Y[\"Y: LWKLYWGE\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
+  },
+  {
+    "objectID": "iv-intro.html#iv-basic-idea",
+    "href": "iv-intro.html#iv-basic-idea",
+    "title": "Instrumental Variables",
+    "section": "IV: Basic idea",
+    "text": "IV: Basic idea\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument\"] --&gt;|Relevance| X[\"X: Treatment\"]\n    X --&gt;|Causal effect| Y[\"Y: Outcome\"]\n    \n    U[\"U: Unobserved\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-&gt;|No direct effect - Exclusion| Y"
+  },
+  {
+    "objectID": "iv-intro.html#references",
+    "href": "iv-intro.html#references",
+    "title": "Instrumental Variables",
+    "section": "References",
+    "text": "References\n\n\n\n\nAngrist, Joshua D, and Alan B Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): 979–1014."
+  }
+]
