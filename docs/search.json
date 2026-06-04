@@ -2,21 +2,70 @@
   {
     "objectID": "iv-intro.html#setting",
     "href": "iv-intro.html#setting",
-    "title": "Instrumental Variables",
+    "title": "Instrumental Variable Method",
     "section": "Setting",
-    "text": "Setting\n\n\n\nSuppose \\(\\beta_1\\) is the true causal effect of \\(X_{i}\\) on \\(Y_{i}\\) in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + \\varepsilon_{i}, \\quad i=1, \\ldots, N\n\\]\nFor the least squares estimate \\(\\hat{\\beta}_{1}^{OLS}\\) to be consistent for \\(\\beta_1\\) requires: \\[\n\\mathbb{E}[\\varepsilon_i|X_i] = 0\n\\] \\(\\implies\\) \\(X_i\\) is exogenous and contains no additional information on \\(\\varepsilon_i\\).\nWhen \\(\\mathbb{E}[\\varepsilon_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and \\(\\hat{\\beta}_{1}^{OLS}\\) is inconsistent for \\(\\beta_{1}\\).\nExample: Effect of EDUC on LWKLYWGE (Angrist and Krueger 1991), where \\(\\text{Cov(X, U)}&gt;0\\)\n\n\nExample\n\n\n\n\n\nflowchart TD\n    X[\"X: EDUC\"] --&gt;|Causal effect| Y[\"Y: LWKLYWGE\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
+    "text": "Setting\n\n\n\nSuppose \\(\\beta_1\\) is the true causal effect of \\(X\\) on \\(Y\\) in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad i=1, \\ldots, N\n\\]\nFor all \\(\\hat{\\beta}_{i}^{OLS}\\) to be consistent, we need: \\[\n\\mathbb{E}[u_i|X_i] = 0\n\\] i.e. \\(X_i\\) is exogenous and contains no information on \\(u_i\\).\nWhen \\(\\mathbb{E}[u_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and \\(\\hat{\\beta}_{i}^{OLS}\\) becomes inconsistent (invalid even in large samples).\nExample: The effect of EDUC on LWKLYWGE (Angrist and Krueger 1991), where \\(\\text{Cov(X, U)}&gt;0\\)\n\n\nExample\n\n\n\n\n\nflowchart TD\n    X[\"X: EDUC\"] --&gt;|Causal effect| Y[\"Y: LWKLYWGE\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
+  },
+  {
+    "objectID": "iv-intro.html#quiz-threats-to-internal-validity",
+    "href": "iv-intro.html#quiz-threats-to-internal-validity",
+    "title": "Instrumental Variable Method",
+    "section": "Quiz: Threats to Internal Validity",
+    "text": "Quiz: Threats to Internal Validity\nWhat are potential threats to internal validity?\n\nOmitted variables bias\nMeasurement error in an independent variable\nSample selection bias\nSimultaneity\nAll of the above"
   },
   {
     "objectID": "iv-intro.html#iv-basic-idea",
     "href": "iv-intro.html#iv-basic-idea",
-    "title": "Instrumental Variables",
-    "section": "IV: Basic idea",
-    "text": "IV: Basic idea\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument\"] --&gt;|Relevance| X[\"X: Treatment\"]\n    X --&gt;|Causal effect| Y[\"Y: Outcome\"]\n    \n    U[\"U: Unobserved\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-&gt;|No direct effect - Exclusion| Y"
+    "title": "Instrumental Variable Method",
+    "section": "IV: Basic Idea",
+    "text": "IV: Basic Idea\n\n\n\nFor the equation: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}\n\\] IVs decompose \\(X\\) into two parts that are uncorrelated: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\]\n\n\\(\\text{Cov}(Z, u) = 0\\): the part uncorrelated with \\(u\\)\n\\(\\text{Cov}(v, u) \\ne 0\\): the part correlated with \\(u\\) and the source of endogeneity\nwith \\(\\text{Cov}(Z,v) = 0\\)\n\n\\(Z_{i}\\) is an instrumental variable\n\n\nExample: AK (1991)\n\\(\\text{Cov}(X, U) \\ne 0\\)\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument (QOB)\"] --&gt;|Relevance| X[\"X: EDUC\"]\n    X --&gt;|Causal effect| Y[\"Y: LWKLYWGE\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-o|No direct effect - Exclusion| Y"
+  },
+  {
+    "objectID": "iv-intro.html#conditions-for-a-valid-instrument",
+    "href": "iv-intro.html#conditions-for-a-valid-instrument",
+    "title": "Instrumental Variable Method",
+    "section": "Conditions for a Valid Instrument",
+    "text": "Conditions for a Valid Instrument\nA valid instrumental variable must satisfy two conditions:\n\nInstrument relevance: \\(\\text{Cov}(Z_{i}, X_{i}) \\ne 0\\)\n\nWe observe both \\(X\\) and \\(Z\\) and can test this assumption by regressing: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\]\nIf \\(\\gamma_1 \\ne 0\\) \\(\\implies\\) instrument is relevant\n\nInstrument exogeneity: \\(\\text{Cov}(Z_{i}, u_{i}) = 0\\)\n\n\\(u_{i}\\) is unobservable, so we cannot test this assumption\nMust defend this assumption by explaining why \\(Z\\) and \\(u\\) are unlikely to be correlated"
+  },
+  {
+    "objectID": "iv-intro.html#iv-regression-with-continuous-z",
+    "href": "iv-intro.html#iv-regression-with-continuous-z",
+    "title": "Instrumental Variable Method",
+    "section": "IV Regression with Continuous \\(Z\\)",
+    "text": "IV Regression with Continuous \\(Z\\)\nConsider the same model: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}\n\\]\n\n\\(Z\\) is continuous\nTo capture the indirect effect of \\(Z\\): \\[\n\\begin{aligned}\n\\text{Cov}(Y_{i},Z_{i}) &= \\text{Cov}(\\beta_0 + \\beta_1 X_{i} + u, Z_{i}) \\\\\n&= \\beta_1 \\text{Cov}(X_{i}, Z_{i}) \\quad \\text{since } \\text{Cov}(Z_{i}, u_{i}) = 0\n\\end{aligned}\n\\]\nRearranging, we get the instrumental variable estimator: \\[\n\\begin{aligned}\n\\beta_{1}^{IV} &= \\frac{\\text{Cov}(Y_{i},Z_{i})}{\\text{Cov}(X_{i}, Z_{i})}\\\\\n& =\\frac{s_{YZ}}{s_{ZX}}\n\\end{aligned}\n\\]"
+  },
+  {
+    "objectID": "iv-intro.html#large-sample-properties-of-beta_1iv",
+    "href": "iv-intro.html#large-sample-properties-of-beta_1iv",
+    "title": "Instrumental Variable Method",
+    "section": "Large Sample Properties of \\(\\beta_{1}^{IV}\\)",
+    "text": "Large Sample Properties of \\(\\beta_{1}^{IV}\\)\nConsistency\nDue to LLN, \\(s_{YZ} \\xrightarrow{p} \\text{Cov}(Z_i, Y_i)\\) and \\(s_{XZ} \\xrightarrow{p} \\text{Cov}(Z_i, X_i)\\).\nIt follows: \\[\n\\beta_{1}^{IV} = \\frac{s_{YZ}}{s_{ZX}} \\xrightarrow{p} = \\frac{\\text{Cov}(Z_i, Y_i)}{\\text{Cov}(Z_i, X_i)} = \\beta_1\n\\]\n\n\\(\\beta_{1}^{IV}\\) is consistent\n\nNormality\nDue to CLT, \\[\n\\beta_{1}^{IV} \\stackrel{a}{\\sim} N(\\beta_1, \\sigma^{2}_{\\hat{\\beta}_{1}^{TSLS}}) \\quad \\text{ where,}\n\\] \\[\n\\sigma^{2}_{\\hat{\\beta}_{1}^{TSLS}} = \\frac{1}{n}\\frac{\\mathbb{V}[(Z_i - \\mu_Z)u_i]}{[\\text{Cov}(Z_{i}, X_{i})]^2}\n\\]"
+  },
+  {
+    "objectID": "iv-intro.html#two-stage-least-squares-tsls-estimator",
+    "href": "iv-intro.html#two-stage-least-squares-tsls-estimator",
+    "title": "Instrumental Variable Method",
+    "section": "Two Stage Least Squares (TSLS) Estimator",
+    "text": "Two Stage Least Squares (TSLS) Estimator\n\nSuppose we have an instrument \\(Z\\) that satisfies both instrument relevance and exogeneity conditions.\nWe can estimate \\(\\beta_1\\) using a two-step procedure:\n\nFirst stage regression: Regress \\(X\\) on \\(Z\\) (reduced form equation for \\(X\\)): \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\] Apply OLS and obtain predicted values \\(\\hat{X}_{i}\\)\nSecond Stage regression: Regress \\(Y_{i}\\) on \\(\\hat{X}_{i}\\) \\[\nY_{i} = \\beta_0 + \\beta_1 \\hat{X}_{i} + u_{i}\n\\] The TSLS estimators \\(\\beta_{0}^{TSLS}\\) and \\(\\beta_{1}^{TSLS}\\) are obtained from the second stage regression."
+  },
+  {
+    "objectID": "iv-intro.html#angrist-and-krueger-1991",
+    "href": "iv-intro.html#angrist-and-krueger-1991",
+    "title": "Instrumental Variable Method",
+    "section": "Angrist and Krueger (1991)",
+    "text": "Angrist and Krueger (1991)\n\n“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”\n\n\n\n\n\n\nEducation and YOB (1930-40)\n\n\n\n\n\n\nLog weekly earnings and YOB (1930-50)"
+  },
+  {
+    "objectID": "iv-intro.html#angrist-and-krueger-1991-1",
+    "href": "iv-intro.html#angrist-and-krueger-1991-1",
+    "title": "Instrumental Variable Method",
+    "section": "Angrist and Krueger (1991)",
+    "text": "Angrist and Krueger (1991)\n\n\n\n# Angrist and Krueger (1991) - Table IV\n\n# load packages and data --------------------\nlibrary(\"dplyr\")\nlibrary(\"janitor\")\nlibrary(\"haven\")\nlibrary(\"modelsummary\")\nlibrary(\"ivreg\")\n\nak91 &lt;- read_dta(paste0(path, \"/ak91.dta\"))\n\n# clean data and create variables ------------------------\nak91 &lt;- ak91 %&gt;% clean_names()\n\nyr_v &lt;- grep(\"^yr\", names(ak91), value = TRUE)\nyr_v &lt;- yr_v[yr_v %in% \"yr9\" == FALSE]\n\nqtr1_v &lt;- grep(\"^qtr1\", names(ak91), value = TRUE)\nqtr1_v &lt;- qtr1_v[qtr1_v %in% \"qtr1\" == FALSE]\n\nqtr2_v &lt;- grep(\"^qtr2\", names(ak91), value = TRUE)\nqtr2_v &lt;- qtr2_v[qtr2_v %in% \"qtr2\" == FALSE]\n\nqtr3_v &lt;- grep(\"^qtr3\", names(ak91), value = TRUE)\nqtr3_v &lt;- qtr3_v[qtr3_v %in% \"qtr3\" == FALSE]\n\nX_exog &lt;- c(\n    \"race\",\n    \"married\",\n    \"smsa\",\n    \"neweng\",\n    \"midatl\",\n    \"enocent\",\n    \"wnocent\",\n    \"soatl\",\n    \"esocent\",\n    \"wsocent\",\n    \"mt\",\n    \"ageq\",\n    \"ageqsq\"\n)\nX_endog &lt;- \"educ\"\nZ_inst &lt;- c(yr_v, qtr1_v, qtr2_v, qtr3_v)\n\n\n# OLS model\nols_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_endog, X_exog, yr_v), collapse = \" + \")\n    )\n)\nols_model &lt;- lm(ols_fml, data = ak91)\n\n# IV model\niv_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_exog, yr_v), collapse = \" + \"),\n        \"|\",\n        X_endog,\n        \"|\",\n        paste(Z_inst, collapse = \" + \")\n    )\n)\niv_model &lt;- ivreg(iv_fml, data = ak91)\n\nm_list &lt;- list(\n    \"OLS\" = ols_model,\n    \"IV\" = iv_model\n)\n\nmsummary(m_list)\n\n\nDependent variable: log weekly wages\n\n\n\n\n\n\n\n\n\nOLS\nIV\n\n\n\n\nEducation\n0.070***\n0.103**\n\n\n\n(0.000)\n(0.033)\n\n\nObservations\n247199\n247199\n\n\nR²\n0.230\n0.204\n\n\n\n\np &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\n\n\n\n\\(\\beta_{1}^{TSLS} &gt; \\beta_{1}^{OLS}\\) : school “completion” effect due to compulsory schooling."
   },
   {
     "objectID": "iv-intro.html#references",
     "href": "iv-intro.html#references",
-    "title": "Instrumental Variables",
+    "title": "Instrumental Variable Method",
     "section": "References",
     "text": "References\n\n\n\n\nAngrist, Joshua D, and Alan B Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): 979–1014."
   }

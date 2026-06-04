@@ -9,8 +9,8 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Subham Kailthya">
-  <meta name="dcterms.date" content="2026-06-03">
-  <title>Instrumental Variables</title>
+  <meta name="dcterms.date" content="2026-06-04">
+  <title>Instrumental Variable Method</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -31,6 +31,72 @@
       margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
       vertical-align: middle;
     }
+    /* CSS for syntax highlighting */
+    html { -webkit-text-size-adjust: 100%; }
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      { color: #003b4f; background-color: #f1f3f5; }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span { color: #003b4f; } /* Normal */
+    code span.al { color: #ad0000; } /* Alert */
+    code span.an { color: #5e5e5e; } /* Annotation */
+    code span.at { color: #657422; } /* Attribute */
+    code span.bn { color: #ad0000; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #003b4f; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #20794d; } /* Char */
+    code span.cn { color: #8f5902; } /* Constant */
+    code span.co { color: #5e5e5e; } /* Comment */
+    code span.cv { color: #5e5e5e; font-style: italic; } /* CommentVar */
+    code span.do { color: #5e5e5e; font-style: italic; } /* Documentation */
+    code span.dt { color: #ad0000; } /* DataType */
+    code span.dv { color: #ad0000; } /* DecVal */
+    code span.er { color: #ad0000; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #ad0000; } /* Float */
+    code span.fu { color: #4758ab; } /* Function */
+    code span.im { color: #00769e; } /* Import */
+    code span.in { color: #5e5e5e; } /* Information */
+    code span.kw { color: #003b4f; font-weight: bold; } /* Keyword */
+    code span.op { color: #5e5e5e; } /* Operator */
+    code span.ot { color: #003b4f; } /* Other */
+    code span.pp { color: #ad0000; } /* Preprocessor */
+    code span.sc { color: #5e5e5e; } /* SpecialChar */
+    code span.ss { color: #20794d; } /* SpecialString */
+    code span.st { color: #20794d; } /* String */
+    code span.va { color: #111111; } /* Variable */
+    code span.vs { color: #20794d; } /* VerbatimString */
+    code span.wa { color: #5e5e5e; font-style: italic; } /* Warning */
     /* CSS for citations */
     div.csl-bib-body { }
     div.csl-entry {
@@ -57,6 +123,7 @@
   <link href="site_libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-chalkboard/font-awesome/css/all.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/reveal-chalkboard/style.css" rel="stylesheet">
+  <link href="site_libs/revealjs/plugin/reveal-quiz/quiz.css" rel="stylesheet">
   <link href="site_libs/revealjs/plugin/quarto-support/footer.css" rel="stylesheet">
   <style type="text/css">
     .reveal div.sourceCode {
@@ -154,7 +221,7 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Instrumental Variables</h1>
+  <h1 class="title">Instrumental Variable Method</h1>
   <p class="subtitle">A Short Introduction</p>
 
 <div class="quarto-title-authors">
@@ -168,21 +235,26 @@ Subham Kailthya <a href="https://orcid.org/0000-0002-6961-2502" class="quarto-ti
 </div>
 </div>
 
-  <p class="date">2026-06-03</p>
+  <p class="date">2026-06-04</p>
+</section>
+<section>
+<section id="discussion-of-iv" class="title-slide slide level1 section-slide center">
+<h1>Discussion of IV</h1>
+
 </section>
 <section id="setting" class="slide level2 small-slide">
 <h2>Setting</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <ul>
-<li>Suppose <span class="math inline">\(\beta_1\)</span> is the <span class="alert">true</span> causal effect of <span class="math inline">\(X_{i}\)</span> on <span class="math inline">\(Y_{i}\)</span> in the linear regression: <span class="math display">\[
-Y_{i} = \beta_0 + \beta_1 X_{i} + \varepsilon_{i}, \quad i=1, \ldots, N
+<li>Suppose <span class="math inline">\(\beta_1\)</span> is the <span class="alert">true</span> causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> in the linear regression: <span class="math display">\[
+Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 \]</span></li>
-<li>For the least squares estimate <span class="math inline">\(\hat{\beta}_{1}^{OLS}\)</span> to be consistent for <span class="math inline">\(\beta_1\)</span> requires: <span class="math display">\[
-\mathbb{E}[\varepsilon_i|X_i] = 0
-\]</span> <span class="math inline">\(\implies\)</span> <span class="math inline">\(X_i\)</span> is <strong>exogenous</strong> and contains no additional information on <span class="math inline">\(\varepsilon_i\)</span>.</li>
-<li>When <span class="math inline">\(\mathbb{E}[\varepsilon_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and <span class="math inline">\(\hat{\beta}_{1}^{OLS}\)</span> is inconsistent for <span class="math inline">\(\beta_{1}\)</span>.</li>
-<li>Example: Effect of <code>EDUC</code> on <code>LWKLYWGE</code> <span class="citation" data-cites="angrist1991does">(<a href="#/references" role="doc-biblioref" onclick="">Angrist and Krueger 1991</a>)</span>, where <span class="math inline">\(\text{Cov(X, U)}&gt;0\)</span></li>
+<li>For all <span class="math inline">\(\hat{\beta}_{i}^{OLS}\)</span> to be consistent, we need: <span class="math display">\[
+\mathbb{E}[u_i|X_i] = 0
+\]</span> i.e.&nbsp;<span class="math inline">\(X_i\)</span> is <strong>exogenous</strong> and contains no information on <span class="math inline">\(u_i\)</span>.</li>
+<li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and <span class="math inline">\(\hat{\beta}_{i}^{OLS}\)</span> becomes inconsistent (invalid even in large samples).</li>
+<li>Example: The effect of <code>EDUC</code> on <code>LWKLYWGE</code> <span class="citation" data-cites="angrist1991does">(<a href="#/references" role="doc-biblioref" onclick="">Angrist and Krueger 1991</a>)</span>, where <span class="math inline">\(\text{Cov(X, U)}&gt;0\)</span></li>
 </ul>
 </div><div class="column" style="width:30%;">
 <p><span class="highlight center">Example</span></p>
@@ -204,27 +276,282 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + \varepsilon_{i}, \quad i=1, \ldots, N
 </div>
 </div></div>
 </section>
+<section id="quiz-threats-to-internal-validity" class="slide level2 quiz-question small-slide">
+<h2>Quiz: Threats to Internal Validity</h2>
+<p>What are potential threats to internal validity?</p>
+<ul>
+<li>Omitted variables bias</li>
+<li>Measurement error in an independent variable</li>
+<li>Sample selection bias</li>
+<li>Simultaneity</li>
+<li><span class="correct">All of the above</span></li>
+</ul>
+</section>
 <section id="iv-basic-idea" class="slide level2 small-slide">
-<h2>IV: Basic idea</h2>
+<h2>IV: Basic Idea</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>For the equation: <span class="math display">\[
+Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
+\]</span> IVs decompose <span class="math inline">\(X\)</span> into two parts that are uncorrelated: <span class="math display">\[
+X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
+\]</span>
+<ul>
+<li><span class="math inline">\(\text{Cov}(Z, u) = 0\)</span>: the part uncorrelated with <span class="math inline">\(u\)</span></li>
+<li><span class="math inline">\(\text{Cov}(v, u) \ne 0\)</span>: the part correlated with <span class="math inline">\(u\)</span> and the source of endogeneity</li>
+<li>with <span class="math inline">\(\text{Cov}(Z,v) = 0\)</span></li>
+</ul></li>
+<li><span class="math inline">\(Z_{i}\)</span> is an <span class="fg">instrumental variable</span></li>
+</ul>
+</div><div class="column" style="width:40%;">
+<p><span class="highlight center">Example: AK (1991)</span></p>
+<p><span class="center"><span class="math inline">\(\text{Cov}(X, U) \ne 0\)</span></span></p>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    Z["Z: Instrument"] --&gt;|Relevance| X["X: Treatment"]
-    X --&gt;|Causal effect| Y["Y: Outcome"]
+    Z["Z: Instrument (QOB)"] --&gt;|Relevance| X["X: EDUC"]
+    X --&gt;|Causal effect| Y["Y: LWKLYWGE"]
     
-    U["U: Unobserved"] --&gt; X
+    U["U: Ability"] --&gt; X
     U --&gt; Y
     
-    Z -.-&gt;|No direct effect - Exclusion| Y
+    Z -.-o|No direct effect - Exclusion| Y
 </pre>
 </div>
 <p></p></figure><p></p>
 </div>
 </div>
 </div>
+</div></div>
+</section>
+<section id="conditions-for-a-valid-instrument" class="slide level2 small-slide">
+<h2>Conditions for a Valid Instrument</h2>
+<p>A <em>valid</em> instrumental variable must satisfy two conditions:</p>
+<ol type="1">
+<li class="fragment"><span class="fg">Instrument relevance</span>: <span class="math inline">\(\text{Cov}(Z_{i}, X_{i}) \ne 0\)</span>
+<ul>
+<li class="fragment">We observe both <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> and can test this assumption by regressing: <span class="math display">\[
+X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
+\]</span></li>
+<li class="fragment">If <span class="math inline">\(\gamma_1 \ne 0\)</span> <span class="math inline">\(\implies\)</span> instrument is relevant</li>
+</ul></li>
+<li class="fragment"><span class="fg">Instrument exogeneity</span>: <span class="math inline">\(\text{Cov}(Z_{i}, u_{i}) = 0\)</span>
+<ul>
+<li class="fragment"><span class="math inline">\(u_{i}\)</span> is unobservable, so we <span class="alert">cannot</span> test this assumption</li>
+<li class="fragment">Must defend this assumption by explaining why <span class="math inline">\(Z\)</span> and <span class="math inline">\(u\)</span> are unlikely to be correlated</li>
+</ul></li>
+</ol>
+</section>
+<section id="iv-regression-with-continuous-z" class="slide level2 small-slide">
+<h2>IV Regression with Continuous <span class="math inline">\(Z\)</span></h2>
+<p>Consider the same model: <span class="math display">\[
+Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
+\]</span></p>
+<ul>
+<li><span class="math inline">\(Z\)</span> is continuous</li>
+<li>To capture the indirect effect of <span class="math inline">\(Z\)</span>: <span class="math display">\[
+\begin{aligned}
+\text{Cov}(Y_{i},Z_{i}) &amp;= \text{Cov}(\beta_0 + \beta_1 X_{i} + u, Z_{i}) \\
+&amp;= \beta_1 \text{Cov}(X_{i}, Z_{i}) \quad \text{since } \text{Cov}(Z_{i}, u_{i}) = 0
+\end{aligned}
+\]</span></li>
+<li>Rearranging, we get the <span class="fg">instrumental variable estimator</span>: <span class="math display">\[
+\begin{aligned}
+\beta_{1}^{IV} &amp;= \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})}\\
+&amp; =\frac{s_{YZ}}{s_{ZX}}
+\end{aligned}
+\]</span></li>
+</ul>
+</section>
+<section id="large-sample-properties-of-beta_1iv" class="slide level2 small-slide">
+<h2>Large Sample Properties of <span class="math inline">\(\beta_{1}^{IV}\)</span></h2>
+<p><span class="fg">Consistency</span></p>
+<p>Due to LLN, <span class="math inline">\(s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)\)</span> and <span class="math inline">\(s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)\)</span>.</p>
+<p>It follows: <span class="math display">\[
+\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} = \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1
+\]</span></p>
+<div class="center">
+<p><span class="alert"><span class="math inline">\(\beta_{1}^{IV}\)</span> is consistent</span></p>
+</div>
+<p><span class="fg">Normality</span></p>
+<p>Due to CLT, <span class="math display">\[
+\beta_{1}^{IV} \stackrel{a}{\sim} N(\beta_1, \sigma^{2}_{\hat{\beta}_{1}^{TSLS}}) \quad \text{ where,}
+\]</span> <span class="math display">\[
+\sigma^{2}_{\hat{\beta}_{1}^{TSLS}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}
+\]</span></p>
+</section>
+<section id="two-stage-least-squares-tsls-estimator" class="slide level2 small-slide">
+<h2>Two Stage Least Squares (TSLS) Estimator</h2>
+<ul>
+<li>Suppose we have an instrument <span class="math inline">\(Z\)</span> that satisfies both instrument relevance and exogeneity conditions.</li>
+<li>We can estimate <span class="math inline">\(\beta_1\)</span> using a two-step procedure:
+<ul>
+<li><strong>First stage regression</strong>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> (reduced form equation for <span class="math inline">\(X\)</span>): <span class="math display">\[
+X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
+\]</span> Apply OLS and obtain predicted values <span class="math inline">\(\hat{X}_{i}\)</span></li>
+<li><strong>Second Stage regression</strong>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
+Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
+\]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression.</li>
+</ul></li>
+</ul>
+</section>
+<section id="angrist-and-krueger-1991" class="slide level2 tiny-slide quote-slide">
+<h2>Angrist and Krueger (1991)</h2>
+<blockquote>
+<p>“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”</p>
+</blockquote>
+<div class="columns">
+<div class="column" style="width:48%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./assets/ak91_fig1.png"></p>
+<figcaption>Education and YOB (1930-40)</figcaption>
+</figure>
+</div>
+</div><div class="column" style="width:48%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="./assets/ak91_fig5.png"></p>
+<figcaption>Log weekly earnings and YOB (1930-50)</figcaption>
+</figure>
+</div>
+</div></div>
+</section>
+<section id="angrist-and-krueger-1991-1" class="slide level2 tiny-slide">
+<h2>Angrist and Krueger (1991)</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Angrist and Krueger (1991) - Table IV</span></span>
+<span id="cb1-2"><a></a></span>
+<span id="cb1-3"><a></a><span class="co"># load packages and data --------------------</span></span>
+<span id="cb1-4"><a></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
+<span id="cb1-5"><a></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
+<span id="cb1-6"><a></a><span class="fu">library</span>(<span class="st">"haven"</span>)</span>
+<span id="cb1-7"><a></a><span class="fu">library</span>(<span class="st">"modelsummary"</span>)</span>
+<span id="cb1-8"><a></a><span class="fu">library</span>(<span class="st">"ivreg"</span>)</span>
+<span id="cb1-9"><a></a></span>
+<span id="cb1-10"><a></a>ak91 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">paste0</span>(path, <span class="st">"/ak91.dta"</span>))</span>
+<span id="cb1-11"><a></a></span>
+<span id="cb1-12"><a></a><span class="co"># clean data and create variables ------------------------</span></span>
+<span id="cb1-13"><a></a>ak91 <span class="ot">&lt;-</span> ak91 <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb1-14"><a></a></span>
+<span id="cb1-15"><a></a>yr_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^yr"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-16"><a></a>yr_v <span class="ot">&lt;-</span> yr_v[yr_v <span class="sc">%in%</span> <span class="st">"yr9"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb1-17"><a></a></span>
+<span id="cb1-18"><a></a>qtr1_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr1"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-19"><a></a>qtr1_v <span class="ot">&lt;-</span> qtr1_v[qtr1_v <span class="sc">%in%</span> <span class="st">"qtr1"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb1-20"><a></a></span>
+<span id="cb1-21"><a></a>qtr2_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr2"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-22"><a></a>qtr2_v <span class="ot">&lt;-</span> qtr2_v[qtr2_v <span class="sc">%in%</span> <span class="st">"qtr2"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb1-23"><a></a></span>
+<span id="cb1-24"><a></a>qtr3_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr3"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-25"><a></a>qtr3_v <span class="ot">&lt;-</span> qtr3_v[qtr3_v <span class="sc">%in%</span> <span class="st">"qtr3"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb1-26"><a></a></span>
+<span id="cb1-27"><a></a>X_exog <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb1-28"><a></a>    <span class="st">"race"</span>,</span>
+<span id="cb1-29"><a></a>    <span class="st">"married"</span>,</span>
+<span id="cb1-30"><a></a>    <span class="st">"smsa"</span>,</span>
+<span id="cb1-31"><a></a>    <span class="st">"neweng"</span>,</span>
+<span id="cb1-32"><a></a>    <span class="st">"midatl"</span>,</span>
+<span id="cb1-33"><a></a>    <span class="st">"enocent"</span>,</span>
+<span id="cb1-34"><a></a>    <span class="st">"wnocent"</span>,</span>
+<span id="cb1-35"><a></a>    <span class="st">"soatl"</span>,</span>
+<span id="cb1-36"><a></a>    <span class="st">"esocent"</span>,</span>
+<span id="cb1-37"><a></a>    <span class="st">"wsocent"</span>,</span>
+<span id="cb1-38"><a></a>    <span class="st">"mt"</span>,</span>
+<span id="cb1-39"><a></a>    <span class="st">"ageq"</span>,</span>
+<span id="cb1-40"><a></a>    <span class="st">"ageqsq"</span></span>
+<span id="cb1-41"><a></a>)</span>
+<span id="cb1-42"><a></a>X_endog <span class="ot">&lt;-</span> <span class="st">"educ"</span></span>
+<span id="cb1-43"><a></a>Z_inst <span class="ot">&lt;-</span> <span class="fu">c</span>(yr_v, qtr1_v, qtr2_v, qtr3_v)</span>
+<span id="cb1-44"><a></a></span>
+<span id="cb1-45"><a></a></span>
+<span id="cb1-46"><a></a><span class="co"># OLS model</span></span>
+<span id="cb1-47"><a></a>ols_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb1-48"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb1-49"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
+<span id="cb1-50"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_endog, X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb1-51"><a></a>    )</span>
+<span id="cb1-52"><a></a>)</span>
+<span id="cb1-53"><a></a>ols_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(ols_fml, <span class="at">data =</span> ak91)</span>
+<span id="cb1-54"><a></a></span>
+<span id="cb1-55"><a></a><span class="co"># IV model</span></span>
+<span id="cb1-56"><a></a>iv_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb1-57"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb1-58"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
+<span id="cb1-59"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>),</span>
+<span id="cb1-60"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb1-61"><a></a>        X_endog,</span>
+<span id="cb1-62"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb1-63"><a></a>        <span class="fu">paste</span>(Z_inst, <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb1-64"><a></a>    )</span>
+<span id="cb1-65"><a></a>)</span>
+<span id="cb1-66"><a></a>iv_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(iv_fml, <span class="at">data =</span> ak91)</span>
+<span id="cb1-67"><a></a></span>
+<span id="cb1-68"><a></a>m_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb1-69"><a></a>    <span class="st">"OLS"</span> <span class="ot">=</span> ols_model,</span>
+<span id="cb1-70"><a></a>    <span class="st">"IV"</span> <span class="ot">=</span> iv_model</span>
+<span id="cb1-71"><a></a>)</span>
+<span id="cb1-72"><a></a></span>
+<span id="cb1-73"><a></a><span class="fu">msummary</span>(m_list)</span></code></pre></div>
+</div>
+</div><div class="column" style="width:40%;">
+<p>Dependent variable: log weekly wages</p>
+<table class="caption-top" style="width:50%;">
+<colgroup>
+<col style="width: 20%">
+<col style="width: 15%">
+<col style="width: 13%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>OLS</th>
+<th>IV</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Education</td>
+<td>0.070***</td>
+<td>0.103**</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.000)</td>
+<td>(0.033)</td>
+</tr>
+<tr class="odd">
+<td>Observations</td>
+<td>247199</td>
+<td>247199</td>
+</tr>
+<tr class="even">
+<td>R²</td>
+<td>0.230</td>
+<td>0.204</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td colspan="3"><ul>
+<li>p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</li>
+</ul></td>
+</tr>
+</tfoot>
+
+</table>
+<p><span class="math inline">\(\beta_{1}^{TSLS} &gt; \beta_{1}^{OLS}\)</span> : school “completion” effect due to compulsory schooling.</p>
+</div></div>
+</section></section>
+<section>
+<section id="tutorial" class="title-slide slide level1 section-slide center">
+<h1>Tutorial</h1>
+
 </section>
 <section id="references" class="slide level2 tiny-slide smaller scrollable">
 <h2>References</h2>
@@ -235,7 +562,7 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + \varepsilon_{i}, \quad i=1, \ldots, N
 Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Attendance Affect Schooling and Earnings?”</span> <em>The Quarterly Journal of Economics</em> 106 (4): 979–1014.
 </div>
 </div>
-</section>
+</section></section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -251,6 +578,7 @@ Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Att
   <script src="site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
   <script src="site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
+  <script src="site_libs/revealjs/plugin/reveal-quiz/quiz.js"></script>
   <script src="site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -274,6 +602,7 @@ Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Att
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
+'quiz': {"checkKey":"c","resetKey":"q","shuffleKey":"t","allowNumberKeys":true,"disableOnCheck":false,"shuffleOptions":false,"defaultCorrect":"Correct!","defaultIncorrect":"Incorrect!","includeScore":false,"disableReset":false},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -444,7 +773,7 @@ Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Att
         },
 
         // reveal.js plugins
-        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
+        plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, RevealQuiz, QuartoSupport,
 
           RevealMath,
           RevealNotes,
@@ -453,6 +782,82 @@ Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Att
         ]
       });
     </script>
+    
+
+    <script>
+
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+
+      // slide changes (different for each slide format).
+
+      (function () {
+
+        // dispatch for htmlwidgets
+
+        function fireSlideEnter() {
+
+          const event = window.document.createEvent("Event");
+
+          event.initEvent("slideenter", true, true);
+
+          window.document.dispatchEvent(event);
+
+        }
+
+    
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+
+          fireSlideEnter();
+
+    
+
+          // dispatch for shiny
+
+          if (window.jQuery) {
+
+            if (previousSlide) {
+
+              window.jQuery(previousSlide).trigger("hidden");
+
+            }
+
+            if (currentSlide) {
+
+              window.jQuery(currentSlide).trigger("shown");
+
+            }
+
+          }
+
+        }
+
+    
+
+        // hookup for slidy
+
+        if (window.w3c_slidy) {
+
+          window.w3c_slidy.add_observer(function (slide_num) {
+
+            // slide_num starts at position 1
+
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+
+          });
+
+        }
+
+    
+
+      })();
+
+    </script>
+
+    
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
