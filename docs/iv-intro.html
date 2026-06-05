@@ -9,7 +9,6 @@
   <meta name="generator" content="quarto-1.9.38">
 
   <meta name="author" content="Subham Kailthya">
-  <meta name="dcterms.date" content="2026-06-04">
   <title>Instrumental Variable Method</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -235,7 +234,7 @@ Subham Kailthya <a href="https://orcid.org/0000-0002-6961-2502" class="quarto-ti
 </div>
 </div>
 
-  <p class="date">2026-06-04</p>
+  <p class="date">5 Jun 2026</p>
 </section>
 <section>
 <section id="discussion-of-iv" class="title-slide slide level1 section-slide center">
@@ -278,7 +277,7 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 </section>
 <section id="quiz-threats-to-internal-validity" class="slide level2 quiz-question small-slide">
 <h2>Quiz: Threats to Internal Validity</h2>
-<p>What are potential threats to internal validity?</p>
+<p>What are common potential threats to internal validity?</p>
 <ul>
 <li>Omitted variables bias</li>
 <li>Measurement error in an independent variable</li>
@@ -390,12 +389,12 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
 <li>Suppose we have an instrument <span class="math inline">\(Z\)</span> that satisfies both instrument relevance and exogeneity conditions.</li>
 <li>We can estimate <span class="math inline">\(\beta_1\)</span> using a two-step procedure:
 <ul>
-<li><strong>First stage regression</strong>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> (reduced form equation for <span class="math inline">\(X\)</span>): <span class="math display">\[
+<li><span class="fg">First stage regression</span>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> (reduced form equation for <span class="math inline">\(X\)</span>): <span class="math display">\[
 X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
 \]</span> Apply OLS and obtain predicted values <span class="math inline">\(\hat{X}_{i}\)</span></li>
-<li><strong>Second Stage regression</strong>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
+<li><span class="fg">Second Stage regression</span>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
 Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
-\]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression.</li>
+\]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression. <span class="note">Note:</span> OLS s.e. of second stage regression is incorrect. Use statistical software</li>
 </ul></li>
 </ul>
 </section>
@@ -404,103 +403,154 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 <blockquote>
 <p>“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”</p>
 </blockquote>
-<div class="columns">
-<div class="column" style="width:48%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="./assets/ak91_fig1.png"></p>
-<figcaption>Education and YOB (1930-40)</figcaption>
-</figure>
-</div>
-</div><div class="column" style="width:48%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="./assets/ak91_fig5.png"></p>
-<figcaption>Log weekly earnings and YOB (1930-50)</figcaption>
-</figure>
-</div>
-</div></div>
-</section>
-<section id="angrist-and-krueger-1991-1" class="slide level2 tiny-slide">
-<h2>Angrist and Krueger (1991)</h2>
-<div class="columns">
-<div class="column" style="width:60%;">
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># Angrist and Krueger (1991) - Table IV</span></span>
-<span id="cb1-2"><a></a></span>
-<span id="cb1-3"><a></a><span class="co"># load packages and data --------------------</span></span>
+<details class="code-fold">
+<summary>expand for full code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb1-1"><a></a><span class="co"># load libraries -------------------------</span></span>
+<span id="cb1-2"><a></a><span class="fu">library</span>(<span class="st">"haven"</span>)</span>
+<span id="cb1-3"><a></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
 <span id="cb1-4"><a></a><span class="fu">library</span>(<span class="st">"dplyr"</span>)</span>
-<span id="cb1-5"><a></a><span class="fu">library</span>(<span class="st">"janitor"</span>)</span>
-<span id="cb1-6"><a></a><span class="fu">library</span>(<span class="st">"haven"</span>)</span>
-<span id="cb1-7"><a></a><span class="fu">library</span>(<span class="st">"modelsummary"</span>)</span>
-<span id="cb1-8"><a></a><span class="fu">library</span>(<span class="st">"ivreg"</span>)</span>
-<span id="cb1-9"><a></a></span>
-<span id="cb1-10"><a></a>ak91 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">paste0</span>(path, <span class="st">"/ak91.dta"</span>))</span>
-<span id="cb1-11"><a></a></span>
-<span id="cb1-12"><a></a><span class="co"># clean data and create variables ------------------------</span></span>
-<span id="cb1-13"><a></a>ak91 <span class="ot">&lt;-</span> ak91 <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
-<span id="cb1-14"><a></a></span>
-<span id="cb1-15"><a></a>yr_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^yr"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-16"><a></a>yr_v <span class="ot">&lt;-</span> yr_v[yr_v <span class="sc">%in%</span> <span class="st">"yr9"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
-<span id="cb1-17"><a></a></span>
-<span id="cb1-18"><a></a>qtr1_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr1"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-19"><a></a>qtr1_v <span class="ot">&lt;-</span> qtr1_v[qtr1_v <span class="sc">%in%</span> <span class="st">"qtr1"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb1-5"><a></a><span class="fu">library</span>(<span class="st">"zoo"</span>)</span>
+<span id="cb1-6"><a></a><span class="fu">library</span>(<span class="st">"ggplot2"</span>)</span>
+<span id="cb1-7"><a></a><span class="fu">library</span>(<span class="st">"patchwork"</span>)</span>
+<span id="cb1-8"><a></a></span>
+<span id="cb1-9"><a></a>ak91 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="fu">paste0</span>(path, <span class="st">"/ak91_2029.dta"</span>))</span>
+<span id="cb1-10"><a></a></span>
+<span id="cb1-11"><a></a><span class="co"># clean data and create variables ------------------------</span></span>
+<span id="cb1-12"><a></a>ak91 <span class="ot">&lt;-</span> ak91 <span class="sc">%&gt;%</span></span>
+<span id="cb1-13"><a></a>    <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb1-14"><a></a>    <span class="fu">mutate</span>(<span class="at">yob =</span> yob <span class="sc">+</span> <span class="dv">1900</span>)</span>
+<span id="cb1-15"><a></a></span>
+<span id="cb1-16"><a></a>ak91 <span class="ot">&lt;-</span> ak91 <span class="sc">%&gt;%</span></span>
+<span id="cb1-17"><a></a>    <span class="fu">mutate</span>(</span>
+<span id="cb1-18"><a></a>        <span class="at">yr_qtr =</span> <span class="fu">as.yearqtr</span>(<span class="fu">paste</span>(yob, qob), <span class="at">format =</span> <span class="st">"%Y %q"</span>)</span>
+<span id="cb1-19"><a></a>    )</span>
 <span id="cb1-20"><a></a></span>
-<span id="cb1-21"><a></a>qtr2_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr2"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-22"><a></a>qtr2_v <span class="ot">&lt;-</span> qtr2_v[qtr2_v <span class="sc">%in%</span> <span class="st">"qtr2"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
-<span id="cb1-23"><a></a></span>
-<span id="cb1-24"><a></a>qtr3_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr3"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
-<span id="cb1-25"><a></a>qtr3_v <span class="ot">&lt;-</span> qtr3_v[qtr3_v <span class="sc">%in%</span> <span class="st">"qtr3"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
-<span id="cb1-26"><a></a></span>
-<span id="cb1-27"><a></a>X_exog <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
-<span id="cb1-28"><a></a>    <span class="st">"race"</span>,</span>
-<span id="cb1-29"><a></a>    <span class="st">"married"</span>,</span>
-<span id="cb1-30"><a></a>    <span class="st">"smsa"</span>,</span>
-<span id="cb1-31"><a></a>    <span class="st">"neweng"</span>,</span>
-<span id="cb1-32"><a></a>    <span class="st">"midatl"</span>,</span>
-<span id="cb1-33"><a></a>    <span class="st">"enocent"</span>,</span>
-<span id="cb1-34"><a></a>    <span class="st">"wnocent"</span>,</span>
-<span id="cb1-35"><a></a>    <span class="st">"soatl"</span>,</span>
-<span id="cb1-36"><a></a>    <span class="st">"esocent"</span>,</span>
-<span id="cb1-37"><a></a>    <span class="st">"wsocent"</span>,</span>
-<span id="cb1-38"><a></a>    <span class="st">"mt"</span>,</span>
-<span id="cb1-39"><a></a>    <span class="st">"ageq"</span>,</span>
-<span id="cb1-40"><a></a>    <span class="st">"ageqsq"</span></span>
-<span id="cb1-41"><a></a>)</span>
-<span id="cb1-42"><a></a>X_endog <span class="ot">&lt;-</span> <span class="st">"educ"</span></span>
-<span id="cb1-43"><a></a>Z_inst <span class="ot">&lt;-</span> <span class="fu">c</span>(yr_v, qtr1_v, qtr2_v, qtr3_v)</span>
-<span id="cb1-44"><a></a></span>
-<span id="cb1-45"><a></a></span>
-<span id="cb1-46"><a></a><span class="co"># OLS model</span></span>
-<span id="cb1-47"><a></a>ols_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
-<span id="cb1-48"><a></a>    <span class="fu">paste</span>(</span>
-<span id="cb1-49"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
-<span id="cb1-50"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_endog, X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
-<span id="cb1-51"><a></a>    )</span>
-<span id="cb1-52"><a></a>)</span>
-<span id="cb1-53"><a></a>ols_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(ols_fml, <span class="at">data =</span> ak91)</span>
-<span id="cb1-54"><a></a></span>
-<span id="cb1-55"><a></a><span class="co"># IV model</span></span>
-<span id="cb1-56"><a></a>iv_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
-<span id="cb1-57"><a></a>    <span class="fu">paste</span>(</span>
-<span id="cb1-58"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
-<span id="cb1-59"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>),</span>
-<span id="cb1-60"><a></a>        <span class="st">"|"</span>,</span>
-<span id="cb1-61"><a></a>        X_endog,</span>
-<span id="cb1-62"><a></a>        <span class="st">"|"</span>,</span>
-<span id="cb1-63"><a></a>        <span class="fu">paste</span>(Z_inst, <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
-<span id="cb1-64"><a></a>    )</span>
-<span id="cb1-65"><a></a>)</span>
-<span id="cb1-66"><a></a>iv_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(iv_fml, <span class="at">data =</span> ak91)</span>
-<span id="cb1-67"><a></a></span>
-<span id="cb1-68"><a></a>m_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
-<span id="cb1-69"><a></a>    <span class="st">"OLS"</span> <span class="ot">=</span> ols_model,</span>
-<span id="cb1-70"><a></a>    <span class="st">"IV"</span> <span class="ot">=</span> iv_model</span>
-<span id="cb1-71"><a></a>)</span>
-<span id="cb1-72"><a></a></span>
-<span id="cb1-73"><a></a><span class="fu">msummary</span>(m_list)</span></code></pre></div>
+<span id="cb1-21"><a></a><span class="co"># average yr_qtr data -------------------------------</span></span>
+<span id="cb1-22"><a></a>ak91_qtr <span class="ot">&lt;-</span> ak91 <span class="sc">%&gt;%</span></span>
+<span id="cb1-23"><a></a>    <span class="fu">group_by</span>(yr_qtr) <span class="sc">%&gt;%</span></span>
+<span id="cb1-24"><a></a>    <span class="fu">summarise</span>(</span>
+<span id="cb1-25"><a></a>        <span class="at">lwklywge_mean =</span> <span class="fu">mean</span>(lwklywge, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb1-26"><a></a>        <span class="at">educ_mean =</span> <span class="fu">mean</span>(educ, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-27"><a></a>    )</span>
+<span id="cb1-28"><a></a></span>
+<span id="cb1-29"><a></a><span class="co"># plot and save ------------------------------------</span></span>
+<span id="cb1-30"><a></a>rf_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ak91_qtr, <span class="fu">aes</span>(<span class="at">x =</span> yr_qtr, <span class="at">y =</span> lwklywge_mean)) <span class="sc">+</span></span>
+<span id="cb1-31"><a></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-32"><a></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-33"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb1-34"><a></a>        <span class="at">x =</span> <span class="st">"Year-Quarter"</span>,</span>
+<span id="cb1-35"><a></a>        <span class="at">y =</span> <span class="st">"Average of log weekly wages"</span>,</span>
+<span id="cb1-36"><a></a>        <span class="at">title =</span> <span class="st">"Quarterly Average of Log Weekly Wage (1920-29 Cohort)"</span></span>
+<span id="cb1-37"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb1-38"><a></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb1-39"><a></a>rf_plot</span>
+<span id="cb1-40"><a></a></span>
+<span id="cb1-41"><a></a>inst_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ak91_qtr, <span class="fu">aes</span>(<span class="at">x =</span> yr_qtr, <span class="at">y =</span> educ_mean)) <span class="sc">+</span></span>
+<span id="cb1-42"><a></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb1-43"><a></a>    <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb1-44"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb1-45"><a></a>        <span class="at">x =</span> <span class="st">"Year-Quarter"</span>,</span>
+<span id="cb1-46"><a></a>        <span class="at">y =</span> <span class="st">"Average Years of Education"</span>,</span>
+<span id="cb1-47"><a></a>        <span class="at">title =</span> <span class="st">"Quarterly Average Years of Education (1920-29 Cohort)"</span></span>
+<span id="cb1-48"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb1-49"><a></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb1-50"><a></a>inst_plot</span>
+<span id="cb1-51"><a></a></span>
+<span id="cb1-52"><a></a><span class="fu">ggsave</span>(</span>
+<span id="cb1-53"><a></a>    <span class="st">"ak91_2029_combined.png"</span>,</span>
+<span id="cb1-54"><a></a>    rf_plot <span class="sc">+</span> inst_plot,</span>
+<span id="cb1-55"><a></a>    <span class="at">width =</span> <span class="dv">12</span>,</span>
+<span id="cb1-56"><a></a>    <span class="at">height =</span> <span class="dv">5</span>,</span>
+<span id="cb1-57"><a></a>    <span class="at">dpi =</span> <span class="dv">300</span></span>
+<span id="cb1-58"><a></a>)</span></code></pre></div>
+</details>
 </div>
-</div><div class="column" style="width:40%;">
+
+<img data-src="./assets/ak91_2029_combined.png" class="r-stretch"></section>
+<section id="angrist-and-krueger-1991-1" class="slide level2 tiny-slide center">
+<h2>Angrist and Krueger (1991)</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>expand for full code</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="co"># Angrist and Krueger (1991) - Table IV - Col (7) and (8)</span></span>
+<span id="cb2-2"><a></a></span>
+<span id="cb2-3"><a></a><span class="co"># load packages and data --------------------</span></span>
+<span id="cb2-4"><a></a><span class="fu">library</span>(<span class="st">"modelsummary"</span>)</span>
+<span id="cb2-5"><a></a><span class="fu">library</span>(<span class="st">"ivreg"</span>)</span>
+<span id="cb2-6"><a></a></span>
+<span id="cb2-7"><a></a><span class="co"># create variables for regression -------------------------</span></span>
+<span id="cb2-8"><a></a>yr_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^yr"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-9"><a></a>yr_v <span class="ot">&lt;-</span> yr_v[yr_v <span class="sc">%in%</span> <span class="st">"yr9"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-10"><a></a></span>
+<span id="cb2-11"><a></a>qtr1_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr1"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-12"><a></a>qtr1_v <span class="ot">&lt;-</span> qtr1_v[qtr1_v <span class="sc">%in%</span> <span class="st">"qtr1"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-13"><a></a></span>
+<span id="cb2-14"><a></a>qtr2_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr2"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-15"><a></a>qtr2_v <span class="ot">&lt;-</span> qtr2_v[qtr2_v <span class="sc">%in%</span> <span class="st">"qtr2"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-16"><a></a></span>
+<span id="cb2-17"><a></a>qtr3_v <span class="ot">&lt;-</span> <span class="fu">grep</span>(<span class="st">"^qtr3"</span>, <span class="fu">names</span>(ak91), <span class="at">value =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb2-18"><a></a>qtr3_v <span class="ot">&lt;-</span> qtr3_v[qtr3_v <span class="sc">%in%</span> <span class="st">"qtr3"</span> <span class="sc">==</span> <span class="cn">FALSE</span>]</span>
+<span id="cb2-19"><a></a></span>
+<span id="cb2-20"><a></a><span class="co"># gather variables -------------------------------</span></span>
+<span id="cb2-21"><a></a>X_exog <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb2-22"><a></a>    <span class="st">"race"</span>,</span>
+<span id="cb2-23"><a></a>    <span class="st">"married"</span>,</span>
+<span id="cb2-24"><a></a>    <span class="st">"smsa"</span>,</span>
+<span id="cb2-25"><a></a>    <span class="st">"neweng"</span>,</span>
+<span id="cb2-26"><a></a>    <span class="st">"midatl"</span>,</span>
+<span id="cb2-27"><a></a>    <span class="st">"enocent"</span>,</span>
+<span id="cb2-28"><a></a>    <span class="st">"wnocent"</span>,</span>
+<span id="cb2-29"><a></a>    <span class="st">"soatl"</span>,</span>
+<span id="cb2-30"><a></a>    <span class="st">"esocent"</span>,</span>
+<span id="cb2-31"><a></a>    <span class="st">"wsocent"</span>,</span>
+<span id="cb2-32"><a></a>    <span class="st">"mt"</span>,</span>
+<span id="cb2-33"><a></a>    <span class="st">"ageq"</span>,</span>
+<span id="cb2-34"><a></a>    <span class="st">"ageqsq"</span></span>
+<span id="cb2-35"><a></a>)</span>
+<span id="cb2-36"><a></a>X_endog <span class="ot">&lt;-</span> <span class="st">"educ"</span></span>
+<span id="cb2-37"><a></a>Z_inst <span class="ot">&lt;-</span> <span class="fu">c</span>(yr_v, qtr1_v, qtr2_v, qtr3_v)</span>
+<span id="cb2-38"><a></a></span>
+<span id="cb2-39"><a></a><span class="co"># OLS model ------------------------------------</span></span>
+<span id="cb2-40"><a></a>ols_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb2-41"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb2-42"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
+<span id="cb2-43"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_endog, X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb2-44"><a></a>    )</span>
+<span id="cb2-45"><a></a>)</span>
+<span id="cb2-46"><a></a>ols_model <span class="ot">&lt;-</span> <span class="fu">lm</span>(ols_fml, <span class="at">data =</span> ak91)</span>
+<span id="cb2-47"><a></a><span class="fu">summary</span>(ols_model)</span>
+<span id="cb2-48"><a></a></span>
+<span id="cb2-49"><a></a><span class="co"># IV model -------------------------------------</span></span>
+<span id="cb2-50"><a></a>iv_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb2-51"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb2-52"><a></a>        <span class="st">"lwklywge ~"</span>,</span>
+<span id="cb2-53"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_exog, yr_v), <span class="at">collapse =</span> <span class="st">" + "</span>),</span>
+<span id="cb2-54"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb2-55"><a></a>        X_endog,</span>
+<span id="cb2-56"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb2-57"><a></a>        <span class="fu">paste</span>(Z_inst, <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb2-58"><a></a>    )</span>
+<span id="cb2-59"><a></a>)</span>
+<span id="cb2-60"><a></a>iv_model <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(iv_fml, <span class="at">data =</span> ak91)</span>
+<span id="cb2-61"><a></a><span class="fu">summary</span>(iv_model)</span>
+<span id="cb2-62"><a></a></span>
+<span id="cb2-63"><a></a><span class="co"># print results --------------------------------</span></span>
+<span id="cb2-64"><a></a>m_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-65"><a></a>    <span class="st">"OLS"</span> <span class="ot">=</span> ols_model,</span>
+<span id="cb2-66"><a></a>    <span class="st">"IV"</span> <span class="ot">=</span> iv_model</span>
+<span id="cb2-67"><a></a>)</span>
+<span id="cb2-68"><a></a></span>
+<span id="cb2-69"><a></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"educ"</span> <span class="ot">=</span> <span class="st">"Education"</span>)</span>
+<span id="cb2-70"><a></a></span>
+<span id="cb2-71"><a></a>gm <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb2-72"><a></a>    <span class="fu">list</span>(<span class="st">"raw"</span> <span class="ot">=</span> <span class="st">"nobs"</span>, <span class="st">"clean"</span> <span class="ot">=</span> <span class="st">"Observations"</span>, <span class="st">"fmt"</span> <span class="ot">=</span> <span class="dv">0</span>),</span>
+<span id="cb2-73"><a></a>    <span class="fu">list</span>(<span class="st">"raw"</span> <span class="ot">=</span> <span class="st">"r.squared"</span>, <span class="st">"clean"</span> <span class="ot">=</span> <span class="st">"R²"</span>, <span class="st">"fmt"</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
+<span id="cb2-74"><a></a>)</span>
+<span id="cb2-75"><a></a></span>
+<span id="cb2-76"><a></a><span class="fu">msummary</span>(m_list, <span class="at">stars =</span> <span class="cn">TRUE</span>, <span class="at">gof_map =</span> gm, <span class="at">coef_map =</span> cm, <span class="at">output =</span> <span class="st">"markdown"</span>)</span></code></pre></div>
+</details>
+</div>
 <p>Dependent variable: log weekly wages</p>
 <table class="caption-top" style="width:50%;">
 <colgroup>
@@ -546,7 +596,17 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 
 </table>
 <p><span class="math inline">\(\beta_{1}^{TSLS} &gt; \beta_{1}^{OLS}\)</span> : school “completion” effect due to compulsory schooling.</p>
-</div></div>
+</section>
+<section id="next-steps" class="slide level2 small-slide">
+<h2>Next Steps</h2>
+<ul>
+<li>General IV regression (additional regressors, multiple instruments)</li>
+<li>Weak Instruments: AK(1991) <span class="citation" data-cites="bound1995problems stock2002testing andrews2019weak">(<a href="#/references" role="doc-biblioref" onclick="">Bound et al. 1995</a>; <a href="#/references" role="doc-biblioref" onclick="">Stock and Yogo 2002</a>; <a href="#/references" role="doc-biblioref" onclick="">Andrews et al. 2019</a>)</span>
+<ul>
+<li>Sargan J-Test of overidentifying restriction</li>
+</ul></li>
+<li>Heterogenous treatment effects (LATE)</li>
+</ul>
 </section></section>
 <section>
 <section id="tutorial" class="title-slide slide level1 section-slide center">
@@ -558,8 +618,17 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-andrews2019weak" class="csl-entry" role="listitem">
+Andrews, Isaiah, James H Stock, and Liyang Sun. 2019. <span>“Weak Instruments in Instrumental Variables Regression: Theory and Practice.”</span> <em>Annual Review of Economics</em> 11 (1): 727–53.
+</div>
 <div id="ref-angrist1991does" class="csl-entry" role="listitem">
 Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Attendance Affect Schooling and Earnings?”</span> <em>The Quarterly Journal of Economics</em> 106 (4): 979–1014.
+</div>
+<div id="ref-bound1995problems" class="csl-entry" role="listitem">
+Bound, John, David A Jaeger, and Regina M Baker. 1995. <span>“Problems with Instrumental Variables Estimation When the Correlation Between the Instruments and the Endogenous Explanatory Variable Is Weak.”</span> <em>Journal of the American Statistical Association</em> 90 (430): 443–50.
+</div>
+<div id="ref-stock2002testing" class="csl-entry" role="listitem">
+Stock, James H, and Motohiro Yogo. 2002. <em>Testing for Weak Instruments in Linear IV Regression</em>. National Bureau of Economic Research Cambridge, Mass., USA.
 </div>
 </div>
 </section></section>

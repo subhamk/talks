@@ -25,6 +25,7 @@ author:
     email: kailthya.subham@gmail.com
     affiliations: 
 date: last-modified
+date-format: "D MMM YYYY"
 execute:
   echo: true
 ---
@@ -66,7 +67,7 @@ flowchart TD
 
 ## Quiz: Threats to Internal Validity {.quiz-question .small-slide}
 
-What are potential threats to internal validity?
+What are common potential threats to internal validity?
 
 - Omitted variables bias
 - Measurement error in an independent variable
@@ -182,55 +183,106 @@ $$
 
 - Suppose we have an instrument $Z$ that satisfies both instrument relevance and exogeneity conditions.
 - We can estimate $\beta_1$ using a two-step procedure:
-    - **First stage regression**: Regress $X$ on $Z$ (reduced form equation for $X$):
+    - [First stage regression]{.fg}: Regress $X$ on $Z$ (reduced form equation for $X$):
       $$
       X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
       $$
       Apply OLS and obtain predicted values $\hat{X}_{i}$
-    - **Second Stage regression**: Regress $Y_{i}$ on $\hat{X}_{i}$
+    - [Second Stage regression]{.fg}: Regress $Y_{i}$ on $\hat{X}_{i}$
       $$
       Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
       $$
       The TSLS estimators $\beta_{0}^{TSLS}$ and $\beta_{1}^{TSLS}$ are obtained from the second stage regression.
+      [Note:]{.note} OLS s.e. of second stage regression is incorrect. Use statistical software
+
 
 ## Angrist and Krueger (1991) {.tiny-slide .quote-slide}
 
 > "The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday"
 
-:::: {.columns}
-
-::: {.column width="48%"}
-![Education and YOB (1930-40)](./assets/ak91_fig1.png)
-:::
-
-::: {.column width="48%"}
-![Log weekly earnings and YOB (1930-50)](./assets/ak91_fig5.png)
-:::
-
-::::
-
-
-## Angrist and Krueger (1991) {.tiny-slide}
-
-:::: {.columns}
-
-::: {.column width="60%"}
 ```{r}
+#| echo: true
 #| eval: false
-# Angrist and Krueger (1991) - Table IV
+#| code-fold: true
+#| code-summary: "expand for full code"
+# load libraries -------------------------
+library("haven")
+library("janitor")
+library("dplyr")
+library("zoo")
+library("ggplot2")
+library("patchwork")
+
+ak91 <- read_dta(paste0(path, "/ak91_2029.dta"))
+
+# clean data and create variables ------------------------
+ak91 <- ak91 %>%
+    clean_names() %>%
+    mutate(yob = yob + 1900)
+
+ak91 <- ak91 %>%
+    mutate(
+        yr_qtr = as.yearqtr(paste(yob, qob), format = "%Y %q")
+    )
+
+# average yr_qtr data -------------------------------
+ak91_qtr <- ak91 %>%
+    group_by(yr_qtr) %>%
+    summarise(
+        lwklywge_mean = mean(lwklywge, na.rm = TRUE),
+        educ_mean = mean(educ, na.rm = TRUE)
+    )
+
+# plot and save ------------------------------------
+rf_plot <- ggplot(ak91_qtr, aes(x = yr_qtr, y = lwklywge_mean)) +
+    geom_point(size = 2) +
+    geom_line() +
+    labs(
+        x = "Year-Quarter",
+        y = "Average of log weekly wages",
+        title = "Quarterly Average of Log Weekly Wage (1920-29 Cohort)"
+    ) +
+    theme_bw()
+rf_plot
+
+inst_plot <- ggplot(ak91_qtr, aes(x = yr_qtr, y = educ_mean)) +
+    geom_point(size = 2) +
+    geom_line() +
+    labs(
+        x = "Year-Quarter",
+        y = "Average Years of Education",
+        title = "Quarterly Average Years of Education (1920-29 Cohort)"
+    ) +
+    theme_bw()
+inst_plot
+
+ggsave(
+    "ak91_2029_combined.png",
+    rf_plot + inst_plot,
+    width = 12,
+    height = 5,
+    dpi = 300
+)
+```
+
+![](./assets/ak91_2029_combined.png)
+
+
+
+## Angrist and Krueger (1991) {.tiny-slide .center}
+
+```{r}
+#| echo: true
+#| eval: false
+#| code-fold: true
+#| code-summary: "expand for full code"
+# Angrist and Krueger (1991) - Table IV - Col (7) and (8)
 
 # load packages and data --------------------
-library("dplyr")
-library("janitor")
-library("haven")
 library("modelsummary")
 library("ivreg")
 
-ak91 <- read_dta(paste0(path, "/ak91.dta"))
-
-# clean data and create variables ------------------------
-ak91 <- ak91 %>% clean_names()
-
+# create variables for regression -------------------------
 yr_v <- grep("^yr", names(ak91), value = TRUE)
 yr_v <- yr_v[yr_v %in% "yr9" == FALSE]
 
@@ -243,6 +295,7 @@ qtr2_v <- qtr2_v[qtr2_v %in% "qtr2" == FALSE]
 qtr3_v <- grep("^qtr3", names(ak91), value = TRUE)
 qtr3_v <- qtr3_v[qtr3_v %in% "qtr3" == FALSE]
 
+# gather variables -------------------------------
 X_exog <- c(
     "race",
     "married",
@@ -261,8 +314,7 @@ X_exog <- c(
 X_endog <- "educ"
 Z_inst <- c(yr_v, qtr1_v, qtr2_v, qtr3_v)
 
-
-# OLS model
+# OLS model ------------------------------------
 ols_fml <- as.formula(
     paste(
         "lwklywge ~",
@@ -270,8 +322,9 @@ ols_fml <- as.formula(
     )
 )
 ols_model <- lm(ols_fml, data = ak91)
+summary(ols_model)
 
-# IV model
+# IV model -------------------------------------
 iv_fml <- as.formula(
     paste(
         "lwklywge ~",
@@ -283,17 +336,24 @@ iv_fml <- as.formula(
     )
 )
 iv_model <- ivreg(iv_fml, data = ak91)
+summary(iv_model)
 
+# print results --------------------------------
 m_list <- list(
     "OLS" = ols_model,
     "IV" = iv_model
 )
 
-msummary(m_list)
-```
-:::
+cm <- c("educ" = "Education")
 
-::: {.column width="40%"}
+gm <- list(
+    list("raw" = "nobs", "clean" = "Observations", "fmt" = 0),
+    list("raw" = "r.squared", "clean" = "R²", "fmt" = 3)
+)
+
+msummary(m_list, stars = TRUE, gof_map = gm, coef_map = cm, output = "markdown")
+```
+
 Dependent variable: log weekly wages
 
 +--------------+----------+---------+
@@ -312,9 +372,14 @@ Dependent variable: log weekly wages
 +==============+==========+=========+
 
 $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compulsory schooling.
-:::
 
-::::
+## Next Steps {.small-slide}
+
+- General IV regression (additional regressors, multiple instruments)
+- Weak Instruments: AK(1991) [@bound1995problems; @stock2002testing; @andrews2019weak]
+    - Sargan J-Test of overidentifying restriction
+- Heterogenous treatment effects (LATE vs. ATE)
+
 
 # Tutorial {.section-slide}
 
