@@ -234,36 +234,31 @@ Subham Kailthya <a href="https://orcid.org/0000-0002-6961-2502" class="quarto-ti
 </div>
 </div>
 
-  <p class="date">5 Jun 2026</p>
-</section>
-<section>
-<section id="discussion-of-iv" class="title-slide slide level1 section-slide center">
-<h1>Discussion of IV</h1>
-
+  <p class="date">6 Jun 2026</p>
 </section>
 <section id="setting" class="slide level2 small-slide">
 <h2>Setting</h2>
 <div class="columns">
 <div class="column" style="width:70%;">
 <ul>
-<li>Suppose <span class="math inline">\(\beta_1\)</span> is the <span class="alert">true</span> causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> in the linear regression: <span class="math display">\[
+<li>Suppose our interest lies in estimating <span class="math inline">\(\beta_1\)</span>, the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, in the linear regression: <span class="math display">\[
 Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 \]</span></li>
-<li>For all <span class="math inline">\(\hat{\beta}_{i}^{OLS}\)</span> to be consistent, we need: <span class="math display">\[
+<li>Assumption: <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is consistent for <span class="math inline">\(\beta\)</span> if: <span class="math display">\[
 \mathbb{E}[u_i|X_i] = 0
 \]</span> i.e.&nbsp;<span class="math inline">\(X_i\)</span> is <strong>exogenous</strong> and contains no information on <span class="math inline">\(u_i\)</span>.</li>
-<li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and <span class="math inline">\(\hat{\beta}_{i}^{OLS}\)</span> becomes inconsistent (invalid even in large samples).</li>
-<li>Example: The effect of <code>EDUC</code> on <code>LWKLYWGE</code> <span class="citation" data-cites="angrist1991does">(<a href="#/references" role="doc-biblioref" onclick="">Angrist and Krueger 1991</a>)</span>, where <span class="math inline">\(\text{Cov(X, U)}&gt;0\)</span></li>
+<li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and all <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is <span class="fg">inconsistent</span> (invalid even in large samples).</li>
+<li>Example: <span class="citation" data-cites="angrist1991does">Angrist and Krueger (<a href="#/references" role="doc-biblioref" onclick="">1991</a>)</span> study the effect of compulsory schooling laws in the US on returns to education (see DAG).</li>
 </ul>
 </div><div class="column" style="width:30%;">
-<p><span class="highlight center">Example</span></p>
+<p><span class="highlight center">DAG: Omitted Variable</span></p>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    X["X: EDUC"] --&gt;|Causal effect| Y["Y: LWKLYWGE"]
+    X["X: Education"] --&gt;|Causal effect| Y["Y: Earnings"]
     
     U["U: Ability"] --&gt; X
     U --&gt; Y
@@ -275,19 +270,41 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 </div>
 </div></div>
 </section>
-<section id="quiz-threats-to-internal-validity" class="slide level2 quiz-question small-slide">
-<h2>Quiz: Threats to Internal Validity</h2>
-<p>What are common potential threats to internal validity?</p>
+<section id="ovb-and-inconsistency-of-ols" class="slide level2 small-slide">
+<h2>OVB and Inconsistency of OLS</h2>
 <ul>
-<li>Omitted variables bias</li>
-<li>Measurement error in an independent variable</li>
-<li>Sample selection bias</li>
-<li>Simultaneity</li>
-<li><span class="correct">All of the above</span></li>
+<li>Suppose the true model is: <span class="math display">\[
+Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} A_{i} + u_{i}
+\]</span> where <span class="math inline">\(A_{i}\)</span> is the <em>omitted</em> (but relevant) variable and <span class="math inline">\(\mathbb{E}[u_i|X_i A_i] =0\)</span></li>
+<li>If we omit <span class="math inline">\(A_{i}\)</span> we have: <span class="math display">\[
+Y_{i} = \alpha_0 + \alpha_1 X_i + v_{i}
+\]</span> where <span class="math inline">\(v_{i}\)</span> is the composite error <span class="math inline">\(v_{i} = \beta_{2} A_{i} + u_{i}\)</span></li>
+<li>We can show that (exercise): <span class="math display">\[
+\text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, A_{i})}{\mathbb{V}(x)}
+\]</span></li>
 </ul>
 </section>
-<section id="iv-basic-idea" class="slide level2 small-slide">
-<h2>IV: Basic Idea</h2>
+<section id="other-potential-threats-to-internal-validity" class="slide level2">
+<h2>Other Potential Threats to Internal Validity</h2>
+<p>Besides omitted variables, OLS is inconsistent if there is:</p>
+<ul>
+<li>Measurement error in an independent variable (e.g.&nbsp;voting intention)</li>
+<li>Sample selection bias (e.g.&nbsp;job training program)</li>
+<li>Simultaneity and feedback (e.g.&nbsp;demand estimation)</li>
+</ul>
+<p>IVs create <span class="fg">exogenous variation</span> to identify causal impact.</p>
+<!-- ## Quiz: Threats to Internal Validity {.quiz-question .small-slide}
+
+What are common potential threats to internal validity?
+
+- Omitted variables bias
+- Measurement error in an independent variable
+- Sample selection bias
+- Simultaneity
+- [All of the above]{.correct} -->
+</section>
+<section id="instrumental-variable-basic-idea" class="slide level2 small-slide">
+<h2>Instrumental Variable: Basic Idea</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
 <ul>
@@ -297,28 +314,28 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
 X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
 \]</span>
 <ul>
-<li><span class="math inline">\(\text{Cov}(Z, u) = 0\)</span>: the part uncorrelated with <span class="math inline">\(u\)</span></li>
-<li><span class="math inline">\(\text{Cov}(v, u) \ne 0\)</span>: the part correlated with <span class="math inline">\(u\)</span> and the source of endogeneity</li>
-<li>with <span class="math inline">\(\text{Cov}(Z,v) = 0\)</span></li>
+<li><span class="math inline">\(\text{Cov}(Z_i, u_i) = 0\)</span>: the part uncorrelated with <span class="math inline">\(u_i\)</span></li>
+<li><span class="math inline">\(\text{Cov}(v_i, u_i) \ne 0\)</span>: the part correlated with <span class="math inline">\(u_i\)</span> and the source of endogeneity</li>
+<li>with <span class="math inline">\(\text{Cov}(Z_i,v_i) = 0\)</span></li>
 </ul></li>
 <li><span class="math inline">\(Z_{i}\)</span> is an <span class="fg">instrumental variable</span></li>
 </ul>
 </div><div class="column" style="width:40%;">
 <p><span class="highlight center">Example: AK (1991)</span></p>
-<p><span class="center"><span class="math inline">\(\text{Cov}(X, U) \ne 0\)</span></span></p>
+<p><span class="center smaller"><span class="math inline">\(\text{Cov}(X, U) \ne 0\)</span></span></p>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
 <p></p><figure class=""><p></p>
 <div>
 <pre class="mermaid mermaid-js">flowchart TD
-    Z["Z: Instrument (QOB)"] --&gt;|Relevance| X["X: EDUC"]
-    X --&gt;|Causal effect| Y["Y: LWKLYWGE"]
+    Z["Z: Instrument (QOB)"] --&gt;|Relevance| X["X: Education"]
+    X --&gt;|Causal effect| Y["Y: Earnings"]
     
     U["U: Ability"] --&gt; X
     U --&gt; Y
     
-    Z -.-o|No direct effect - Exclusion| Y
+    Z -.-|No direct effect - Exclusion| Y
 </pre>
 </div>
 <p></p></figure><p></p>
@@ -330,32 +347,38 @@ X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
 <section id="conditions-for-a-valid-instrument" class="slide level2 small-slide">
 <h2>Conditions for a Valid Instrument</h2>
 <p>A <em>valid</em> instrumental variable must satisfy two conditions:</p>
+<div class="fragment">
 <ol type="1">
-<li class="fragment"><span class="fg">Instrument relevance</span>: <span class="math inline">\(\text{Cov}(Z_{i}, X_{i}) \ne 0\)</span>
+<li><span class="fg">Instrument relevance</span>: <span class="math inline">\(\text{Cov}(Z_{i}, X_{i}) \ne 0\)</span>
 <ul>
-<li class="fragment">We observe both <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> and can test this assumption by regressing: <span class="math display">\[
+<li>We observe both <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> and can test this assumption by regressing: <span class="math display">\[
 X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
 \]</span></li>
-<li class="fragment">If <span class="math inline">\(\gamma_1 \ne 0\)</span> <span class="math inline">\(\implies\)</span> instrument is relevant</li>
-</ul></li>
-<li class="fragment"><span class="fg">Instrument exogeneity</span>: <span class="math inline">\(\text{Cov}(Z_{i}, u_{i}) = 0\)</span>
-<ul>
-<li class="fragment"><span class="math inline">\(u_{i}\)</span> is unobservable, so we <span class="alert">cannot</span> test this assumption</li>
-<li class="fragment">Must defend this assumption by explaining why <span class="math inline">\(Z\)</span> and <span class="math inline">\(u\)</span> are unlikely to be correlated</li>
+<li>If <span class="math inline">\(\gamma_1 \ne 0\)</span> <span class="math inline">\(\implies\)</span> instrument is relevant</li>
 </ul></li>
 </ol>
+</div>
+<div class="fragment">
+<ol start="2" type="1">
+<li><span class="fg">Instrument exogeneity</span>: <span class="math inline">\(\text{Cov}(Z_{i}, u_{i}) = 0\)</span>
+<ul>
+<li><span class="math inline">\(u_{i}\)</span> is unobservable, so we <span class="alert">cannot</span> test this assumption</li>
+<li>Must defend this assumption by explaining why <span class="math inline">\(Z_i\)</span> and <span class="math inline">\(u_i\)</span> are unlikely to be correlated</li>
+</ul></li>
+</ol>
+</div>
 </section>
 <section id="iv-regression-with-continuous-z" class="slide level2 small-slide">
 <h2>IV Regression with Continuous <span class="math inline">\(Z\)</span></h2>
 <p>Consider the same model: <span class="math display">\[
-Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
+Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad \mathbb{E}[u_{i}|X_{i}]\ne 0
 \]</span></p>
 <ul>
 <li><span class="math inline">\(Z\)</span> is continuous</li>
 <li>To capture the indirect effect of <span class="math inline">\(Z\)</span>: <span class="math display">\[
 \begin{aligned}
-\text{Cov}(Y_{i},Z_{i}) &amp;= \text{Cov}(\beta_0 + \beta_1 X_{i} + u, Z_{i}) \\
-&amp;= \beta_1 \text{Cov}(X_{i}, Z_{i}) \quad \text{since } \text{Cov}(Z_{i}, u_{i}) = 0
+\text{Cov}(Y_{i},Z_{i}) &amp;= \text{Cov}(\beta_0 + \beta_1 X_{i} + u_i, Z_{i}) \\
+&amp;= \beta_1 \text{Cov}(X_{i}, Z_{i}), \quad \text{since } \text{Cov}(Z_{i}, u_{i}) = 0
 \end{aligned}
 \]</span></li>
 <li>Rearranging, we get the <span class="fg">instrumental variable estimator</span>: <span class="math display">\[
@@ -370,14 +393,14 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
 <h2>Large Sample Properties of <span class="math inline">\(\beta_{1}^{IV}\)</span></h2>
 <p><span class="fg">Consistency</span></p>
 <p>Due to LLN, <span class="math inline">\(s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)\)</span> and <span class="math inline">\(s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)\)</span>.</p>
-<p>It follows: <span class="math display">\[
-\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} = \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1
+<p>It follows that: <span class="math display">\[
+\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1
 \]</span></p>
 <div class="center">
 <p><span class="alert"><span class="math inline">\(\beta_{1}^{IV}\)</span> is consistent</span></p>
 </div>
 <p><span class="fg">Normality</span></p>
-<p>Due to CLT, <span class="math display">\[
+<p>From the CLT, <span class="math display">\[
 \beta_{1}^{IV} \stackrel{a}{\sim} N(\beta_1, \sigma^{2}_{\hat{\beta}_{1}^{TSLS}}) \quad \text{ where,}
 \]</span> <span class="math display">\[
 \sigma^{2}_{\hat{\beta}_{1}^{TSLS}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}
@@ -392,14 +415,14 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}
 <li><span class="fg">First stage regression</span>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> (reduced form equation for <span class="math inline">\(X\)</span>): <span class="math display">\[
 X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
 \]</span> Apply OLS and obtain predicted values <span class="math inline">\(\hat{X}_{i}\)</span></li>
-<li><span class="fg">Second Stage regression</span>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
+<li><span class="fg">Second stage regression</span>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
 Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 \]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression. <span class="note">Note:</span> OLS s.e. of second stage regression is incorrect. Use statistical software</li>
 </ul></li>
 </ul>
 </section>
-<section id="angrist-and-krueger-1991" class="slide level2 tiny-slide quote-slide">
-<h2>Angrist and Krueger (1991)</h2>
+<section id="example-angrist-and-krueger-1991" class="slide level2 tiny-slide quote-slide">
+<h2>Example: Angrist and Krueger (1991)</h2>
 <blockquote>
 <p>“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”</p>
 </blockquote>
@@ -468,7 +491,7 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 </div>
 
 <img data-src="./assets/ak91_2029_combined.png" class="r-stretch"></section>
-<section id="angrist-and-krueger-1991-1" class="slide level2 tiny-slide center">
+<section id="angrist-and-krueger-1991" class="slide level2 tiny-slide center">
 <h2>Angrist and Krueger (1991)</h2>
 <div class="cell">
 <details class="code-fold">
@@ -600,24 +623,319 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 <section id="next-steps" class="slide level2 small-slide">
 <h2>Next Steps</h2>
 <ul>
-<li>General IV regression (additional regressors, multiple instruments)</li>
-<li>Weak Instruments: AK(1991) <span class="citation" data-cites="bound1995problems stock2002testing andrews2019weak">(<a href="#/references" role="doc-biblioref" onclick="">Bound et al. 1995</a>; <a href="#/references" role="doc-biblioref" onclick="">Stock and Yogo 2002</a>; <a href="#/references" role="doc-biblioref" onclick="">Andrews et al. 2019</a>)</span>
+<li>General IV regression (additional regressors, multiple instruments)
 <ul>
 <li>Sargan J-Test of overidentifying restriction</li>
 </ul></li>
-<li>Heterogenous treatment effects (LATE)</li>
+<li>Weak Instruments <span class="citation" data-cites="stock2002testing andrews2019weak">(<a href="#/references" role="doc-biblioref" onclick="">Stock and Yogo 2002</a>; <a href="#/references" role="doc-biblioref" onclick="">Andrews et al. 2019</a>)</span>
+<ul>
+<li>AK(1991) reanalysis <span class="citation" data-cites="bound1995problems">(<a href="#/references" role="doc-biblioref" onclick="">Bound et al. 1995</a>)</span></li>
+<li>Anderson-Rubin test</li>
+</ul></li>
+<li>Heterogenous treatment effects (LATE vs.&nbsp;ATE)
+<ul>
+<li>Compliers, Always takers, Never takers, Defiers</li>
+</ul></li>
 </ul>
-</section></section>
-<section>
-<section id="tutorial" class="title-slide slide level1 section-slide center">
-<h1>Tutorial</h1>
-
+<!-- # Tutorial {.section-slide} -->
 </section>
-<section id="references" class="slide level2 tiny-slide smaller scrollable">
+<section id="exercise-sheet" class="slide level2 tiny-slide">
+<h2>Exercise Sheet</h2>
+<p><object data="./assets/iv-exercise.pdf" type="application/pdf" width="100%" height="600px"><a href="./assets/iv-exercise.pdf" download="">Download PDF file.</a></object></p>
+<!-- ## AJR (2001) {.tiny-slide .quote-slide}
+
+Acemoglu, Daron, Simon Johnson, and James A. Robinson. 2001. "The Colonial Origins of Comparative Development: An Empirical Investigation." American Economic Review 91 (5): 1369–1401. [[link]](https://www.aeaweb.org/articles?id=10.1257/aer.91.5.1369)
+
+> We exploit differences in European mortality rates to estimate the effect of institutions on economic performance. Europeans adopted very different colonization policies in different colonies, with different associated institutions. In places where Europeans faced high mortality rates, they could not settle and were more likely to set up extractive institutions. These institutions persisted to the present. Exploiting differences in European mortality rates as an instrument for current institutions, we estimate large effects of institutions on income per capita. Once the effect of institutions is controlled for, countries in Africa or those closer to the equator do not have lower incomes.
+- @acemoglu2001colonial
+
+
+Read about their contribution [2024 Nobel Prize in Economics](https://www.nobelprize.org/prizes/economic-sciences/2024/popular-information/)  -->
+</section>
+<section id="ajr-2001-main-idea" class="slide level2 small-slide">
+<h2>AJR (2001): Main Idea</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<ul>
+<li>AJR considers: <span class="math display">\[
+\log y_{i} = \mu + \alpha R_{i} + \mathbf{X}'_{i}\gamma + u_{i}
+\]</span> where,
+<ul>
+<li><span class="math inline">\(y_{i}\)</span> is income per capita</li>
+<li><span class="math inline">\(R_{i}\)</span> protection against expropriation measure</li>
+<li><span class="math inline">\(\mathbf{X}_i\)</span> vector of other variables</li>
+<li><span class="math inline">\(u_{i}\)</span> is random error.</li>
+</ul></li>
+<li>Here, <span class="math inline">\(\text{Cov}(R_{i}, u_{i}) \ne 0\)</span> and OLS is inconsistent.</li>
+<li><span class="math inline">\(R_{i}\)</span> modeled as: <span class="math display">\[
+R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i}
+\]</span> where <span class="math inline">\(\log M_{i}\)</span>, the settler mortality rate is used to instrument <span class="math inline">\(R_{i}\)</span>.</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<p><span class="highlight center">AJR (2001)</span></p>
+<div class="cell" data-reveal="true" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class=""><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+    Z["Z: Settler mortality (M)"] --&gt;|Relevance| X["R: Institution"]
+    X --&gt;|Causal effect| Y["Y: Income"]
+    
+    U["U"] --&gt; X
+    U --&gt; Y
+    Y --&gt; |"Feedback"| X
+    
+    Z -.-|"Exclusion Restriction"| Y
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</div></div>
+</section>
+<section id="ols-estimates" class="slide level2 small-slide">
+<h2>OLS Estimates</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb3-1"><a></a><span class="co"># AJR 2001: Table 5</span></span>
+<span id="cb3-2"><a></a></span>
+<span id="cb3-3"><a></a><span class="co"># get data ------------------------</span></span>
+<span id="cb3-4"><a></a>ajr01 <span class="ot">&lt;-</span> <span class="fu">read_dta</span>(<span class="st">"./data/maketable5.dta"</span>)</span>
+<span id="cb3-5"><a></a>ajr01 <span class="ot">&lt;-</span> ajr01 <span class="sc">%&gt;%</span> <span class="fu">filter</span>(baseco <span class="sc">==</span> <span class="dv">1</span>)</span>
+<span id="cb3-6"><a></a></span>
+<span id="cb3-7"><a></a>X_exog <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"lat_abst"</span>, <span class="st">"f_french"</span>, <span class="st">"sjlofr"</span>, <span class="st">"catho80"</span>, <span class="st">"muslim80"</span>, <span class="st">"no_cpm80"</span>)</span>
+<span id="cb3-8"><a></a>X_endog <span class="ot">&lt;-</span> <span class="st">"avexpr"</span></span>
+<span id="cb3-9"><a></a>Z_inst <span class="ot">&lt;-</span> <span class="st">"logem4"</span></span>
+<span id="cb3-10"><a></a></span>
+<span id="cb3-11"><a></a><span class="co"># OLS model ------------------------------------</span></span>
+<span id="cb3-12"><a></a>ols_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb3-13"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb3-14"><a></a>        <span class="st">"logpgp95 ~"</span>,</span>
+<span id="cb3-15"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_endog, X_exog), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb3-16"><a></a>    )</span>
+<span id="cb3-17"><a></a>)</span>
+<span id="cb3-18"><a></a>ols_ajr <span class="ot">&lt;-</span> <span class="fu">lm</span>(ols_fml, <span class="at">data =</span> ajr01)</span>
+<span id="cb3-19"><a></a><span class="co"># summary(ols_ajr)</span></span>
+<span id="cb3-20"><a></a></span>
+<span id="cb3-21"><a></a><span class="co"># coeftest(ols_ajr, vcov = vcovHC(ols_ajr, type = "HC1"))</span></span>
+<span id="cb3-22"><a></a></span>
+<span id="cb3-23"><a></a><span class="co"># plot relationship ----------</span></span>
+<span id="cb3-24"><a></a>lm_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ajr01, <span class="fu">aes</span>(<span class="at">x =</span> avexpr, <span class="at">y =</span> logpgp95)) <span class="sc">+</span></span>
+<span id="cb3-25"><a></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb3-26"><a></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb3-27"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb3-28"><a></a>        <span class="at">title =</span> <span class="st">"OLS Relationship: Institutions and Income"</span>,</span>
+<span id="cb3-29"><a></a>        <span class="at">x =</span> <span class="st">"Institutional Quality (avexpr)"</span>,</span>
+<span id="cb3-30"><a></a>        <span class="at">y =</span> <span class="st">"Log GDP per capita (logpgp95)"</span></span>
+<span id="cb3-31"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb3-32"><a></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb3-33"><a></a>lm_plot</span></code></pre></div>
+</div>
+</div><div class="column" style="width:40%;">
+<p><img data-src="./assets/ajr01_lm.png"></p>
+</div></div>
+</section>
+<section id="quiz-endogeneity" class="slide level2 quiz-question small-slide">
+<h2>Quiz: Endogeneity</h2>
+<p>Why is OLS biased in the AJR setting?</p>
+<ul>
+<li>Measurement error only</li>
+<li><span class="correct">Reverse causality and omitted variables</span></li>
+<li>Small sample size</li>
+<li>Incorrect standard errors</li>
+</ul>
+</section>
+<section id="first-stage-regression" class="slide level2 small-slide">
+<h2>First Stage Regression</h2>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb4-1"><a></a><span class="co"># first stage ---------------------------------</span></span>
+<span id="cb4-2"><a></a>fs_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb4-3"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb4-4"><a></a>        X_endog,</span>
+<span id="cb4-5"><a></a>        <span class="st">"~"</span>,</span>
+<span id="cb4-6"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(Z_inst, X_exog), <span class="at">collapse =</span> <span class="st">" + "</span>)</span>
+<span id="cb4-7"><a></a>    )</span>
+<span id="cb4-8"><a></a>)</span>
+<span id="cb4-9"><a></a>fs_ols <span class="ot">&lt;-</span> <span class="fu">lm</span>(fs_fml, <span class="at">data =</span> ajr01)</span>
+<span id="cb4-10"><a></a><span class="fu">summary</span>(fs_ols)</span>
+<span id="cb4-11"><a></a></span>
+<span id="cb4-12"><a></a><span class="fu">linearHypothesis</span>(fs_ols, <span class="st">"logem4 = 0"</span>)</span>
+<span id="cb4-13"><a></a></span>
+<span id="cb4-14"><a></a><span class="co"># plot first stage relationship -------------------</span></span>
+<span id="cb4-15"><a></a>fs_plot <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(ajr01, <span class="fu">aes</span>(<span class="at">x =</span> logem4, <span class="at">y =</span> avexpr)) <span class="sc">+</span></span>
+<span id="cb4-16"><a></a>    <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb4-17"><a></a>    <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">se =</span> <span class="cn">FALSE</span>, <span class="at">color =</span> <span class="st">"darkred"</span>, ) <span class="sc">+</span></span>
+<span id="cb4-18"><a></a>    <span class="fu">labs</span>(</span>
+<span id="cb4-19"><a></a>        <span class="at">title =</span> <span class="st">"First Stage: Settler Mortality and Institutions"</span>,</span>
+<span id="cb4-20"><a></a>        <span class="at">x =</span> <span class="st">"Log Settler Mortality (logem4)"</span>,</span>
+<span id="cb4-21"><a></a>        <span class="at">y =</span> <span class="st">"Institutional Quality (avexpr)"</span></span>
+<span id="cb4-22"><a></a>    ) <span class="sc">+</span></span>
+<span id="cb4-23"><a></a>    <span class="fu">theme_bw</span>()</span>
+<span id="cb4-24"><a></a>fs_plot</span></code></pre></div>
+</div>
+</div><div class="column" style="width:40%;">
+<p><img data-src="./assets/ajr01_fs.png"></p>
+</div></div>
+</section>
+<section id="quiz-relevance-of-first-stage" class="slide level2 quiz-question small-slide">
+<h2>Quiz: Relevance of First Stage</h2>
+<p>What does the first stage regression test?</p>
+<ul>
+<li>Whether institutions affect GDP</li>
+<li>Whether GDP predicts mortality</li>
+<li><span class="correct">Whether the initial settler mortality predicts institutions</span></li>
+<li>Whether residuals are normal</li>
+</ul>
+</section>
+<section id="iv-estimates" class="slide level2 small-slide">
+<h2>IV Estimates</h2>
+<div class="cell">
+<details class="code-fold">
+<summary>expand for full code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="co"># IV model -------------------------------------</span></span>
+<span id="cb5-2"><a></a>iv_fml <span class="ot">&lt;-</span> <span class="fu">as.formula</span>(</span>
+<span id="cb5-3"><a></a>    <span class="fu">paste</span>(</span>
+<span id="cb5-4"><a></a>        <span class="st">"logpgp95 ~"</span>,</span>
+<span id="cb5-5"><a></a>        <span class="fu">paste</span>(<span class="fu">c</span>(X_exog), <span class="at">collapse =</span> <span class="st">" + "</span>),</span>
+<span id="cb5-6"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb5-7"><a></a>        X_endog,</span>
+<span id="cb5-8"><a></a>        <span class="st">"|"</span>,</span>
+<span id="cb5-9"><a></a>        Z_inst</span>
+<span id="cb5-10"><a></a>    )</span>
+<span id="cb5-11"><a></a>)</span>
+<span id="cb5-12"><a></a>iv_ajr <span class="ot">&lt;-</span> <span class="fu">ivreg</span>(iv_fml, <span class="at">data =</span> ajr01)</span>
+<span id="cb5-13"><a></a><span class="fu">summary</span>(iv_ajr)</span>
+<span id="cb5-14"><a></a></span>
+<span id="cb5-15"><a></a><span class="fu">coeftest</span>(iv_ajr, <span class="at">vcov =</span> <span class="fu">vcovHC</span>(iv_ajr, <span class="at">type =</span> <span class="st">"HC1"</span>))</span>
+<span id="cb5-16"><a></a></span>
+<span id="cb5-17"><a></a><span class="co"># OLS vs IV comparison --------------</span></span>
+<span id="cb5-18"><a></a><span class="fu">summary</span>(ols_ajr)<span class="sc">$</span>coefficients[<span class="st">"avexpr"</span>, ]</span>
+<span id="cb5-19"><a></a><span class="fu">summary</span>(iv_ajr)<span class="sc">$</span>coefficients[<span class="st">"avexpr"</span>, ]</span>
+<span id="cb5-20"><a></a></span>
+<span id="cb5-21"><a></a><span class="co"># print results --------------------------------</span></span>
+<span id="cb5-22"><a></a>m_list <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-23"><a></a>    <span class="st">"OLS"</span> <span class="ot">=</span> ols_ajr,</span>
+<span id="cb5-24"><a></a>    <span class="st">"IV"</span> <span class="ot">=</span> iv_ajr,</span>
+<span id="cb5-25"><a></a>    <span class="st">"First stage"</span> <span class="ot">=</span> fs_ols</span>
+<span id="cb5-26"><a></a>)</span>
+<span id="cb5-27"><a></a></span>
+<span id="cb5-28"><a></a>cm <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb5-29"><a></a>    <span class="st">"avexpr"</span> <span class="ot">=</span> <span class="st">"Average Expropriation Risk"</span>,</span>
+<span id="cb5-30"><a></a>    <span class="st">"logem4"</span> <span class="ot">=</span> <span class="st">"Log Settler Mortality"</span></span>
+<span id="cb5-31"><a></a>)</span>
+<span id="cb5-32"><a></a></span>
+<span id="cb5-33"><a></a>gm <span class="ot">&lt;-</span> <span class="fu">list</span>(</span>
+<span id="cb5-34"><a></a>    <span class="fu">list</span>(<span class="st">"raw"</span> <span class="ot">=</span> <span class="st">"nobs"</span>, <span class="st">"clean"</span> <span class="ot">=</span> <span class="st">"Observations"</span>, <span class="st">"fmt"</span> <span class="ot">=</span> <span class="dv">0</span>),</span>
+<span id="cb5-35"><a></a>    <span class="fu">list</span>(<span class="st">"raw"</span> <span class="ot">=</span> <span class="st">"r.squared"</span>, <span class="st">"clean"</span> <span class="ot">=</span> <span class="st">"R²"</span>, <span class="st">"fmt"</span> <span class="ot">=</span> <span class="dv">3</span>)</span>
+<span id="cb5-36"><a></a>)</span>
+<span id="cb5-37"><a></a></span>
+<span id="cb5-38"><a></a><span class="fu">msummary</span>(m_list, <span class="at">stars =</span> <span class="cn">TRUE</span>, <span class="at">gof_map =</span> gm, <span class="at">coef_map =</span> cm, <span class="at">output =</span> <span class="st">"markdown"</span>)</span></code></pre></div>
+</details>
+</div>
+<table class="caption-top" style="width:89%;">
+<colgroup>
+<col style="width: 40%">
+<col style="width: 15%">
+<col style="width: 13%">
+<col style="width: 19%">
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th>OLS</th>
+<th>IV</th>
+<th>First stage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Average Expropriation Risk</td>
+<td>0.473***</td>
+<td>1.167**</td>
+<td></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>(0.059)</td>
+<td>(0.372)</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td>Log Settler Mortality</td>
+<td></td>
+<td></td>
+<td>-0.385*</td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td></td>
+<td>(0.167)</td>
+</tr>
+<tr class="odd">
+<td>Observations</td>
+<td>64</td>
+<td>64</td>
+<td>64</td>
+</tr>
+<tr class="even">
+<td>R²</td>
+<td>0.742</td>
+<td>0.083</td>
+<td>0.370</td>
+</tr>
+</tbody><tfoot>
+<tr class="odd">
+<td colspan="4"><ul>
+<li>p &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001</li>
+</ul></td>
+</tr>
+</tfoot>
+
+</table>
+</section>
+<section id="quiz-iv-interpretation" class="slide level2 quiz-question small-slide">
+<h2>Quiz: IV Interpretation</h2>
+<p>What does the IV estimate capture?</p>
+<ul>
+<li>Correlation only</li>
+<li>Average treatment effect for all countries</li>
+<li>Prediction error</li>
+<li><span class="correct">Causal effect using exogenous variation</span></li>
+</ul>
+</section>
+<section id="iv-instrument-validity" class="slide level2 small-slide">
+<h2>IV: Instrument Validity</h2>
+<p>Exclusion restriction may be an issue.</p>
+<p><span class="citation" data-cites="albouy2012colonial">Albouy (<a href="#/references" role="doc-biblioref" onclick="">2012</a>)</span>:</p>
+<ul>
+<li><strong>Measurement Error</strong>: Doubts the reliability and comparability of European settler mortality rates used in AJR
+<ul>
+<li>36 out of 64 assigned mortality rates based on conjecture</li>
+<li>clustering s.e. noticeably reduces significance</li>
+<li>use of peak vs.&nbsp;average mortality rates</li>
+</ul></li>
+<li><strong>Weak Instrument</strong>: Addressing some of these issues weakens the relationship between settler mortality rates and institutions ## References {.tiny-slide}</li>
+</ul>
+<p><span class="citation" data-cites="acemoglu2012colonial">Acemoglu et al. (<a href="#/references" role="doc-biblioref" onclick="">2012</a>)</span>:</p>
+<p>“Neither of Albouy’s claim is compelling.”</p>
+</section>
+<section id="references" class="slide level2 smaller scrollable">
 <h2>References</h2>
 
 
 <div id="refs" class="references csl-bib-body hanging-indent" role="list">
+<div id="ref-acemoglu2012colonial" class="csl-entry" role="listitem">
+Acemoglu, Daron, Simon Johnson, and James A Robinson. 2012. <span>“The Colonial Origins of Comparative Development: An Empirical Investigation: Reply.”</span> <em>American Economic Review</em> 102 (6): 3077–110.
+</div>
+<div id="ref-albouy2012colonial" class="csl-entry" role="listitem">
+Albouy, David Y. 2012. <span>“The Colonial Origins of Comparative Development: An Empirical Investigation: Comment.”</span> <em>American Economic Review</em> 102 (6): 3059–76.
+</div>
 <div id="ref-andrews2019weak" class="csl-entry" role="listitem">
 Andrews, Isaiah, James H Stock, and Liyang Sun. 2019. <span>“Weak Instruments in Instrumental Variables Regression: Theory and Practice.”</span> <em>Annual Review of Economics</em> 11 (1): 727–53.
 </div>
@@ -631,7 +949,7 @@ Bound, John, David A Jaeger, and Regina M Baker. 1995. <span>“Problems with In
 Stock, James H, and Motohiro Yogo. 2002. <em>Testing for Weak Instruments in Linear IV Regression</em>. National Bureau of Economic Research Cambridge, Mass., USA.
 </div>
 </div>
-</section></section>
+</section>
     </div>
   <div class="quarto-auto-generated-content" style="display: none;">
 <div class="footer footer-default">
@@ -797,7 +1115,7 @@ Stock, James H, and Motohiro Yogo. 2002. <em>Testing for Weak Instruments in Lin
         previewLinks: false,
 
         // Transition style (none/fade/slide/convex/concave/zoom)
-        transition: 'none',
+        transition: 'slide',
 
         // Transition speed (default/fast/slow)
         transitionSpeed: 'default',
