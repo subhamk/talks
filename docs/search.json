@@ -7,18 +7,25 @@
     "text": "Setting\n\n\n\nSuppose our interest lies in estimating \\(\\beta_1\\), the causal effect of \\(X\\) on \\(Y\\), in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad i=1, \\ldots, N\n\\]\nAssumption: \\(\\hat{\\beta}^{OLS}\\) is consistent for \\(\\beta\\) if: \\[\n\\mathbb{E}[u_i|X_i] = 0\n\\] i.e. \\(X_i\\) is exogenous and contains no information on \\(u_i\\).\nWhen \\(\\mathbb{E}[u_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and all \\(\\hat{\\beta}^{OLS}\\) is inconsistent (invalid even in large samples).\nExample: Angrist and Krueger (1991) study the effect of compulsory schooling laws in the US on returns to education (see DAG).\n\n\nDAG: Omitted Variable\n\n\n\n\n\nflowchart TD\n    X[\"X: Education\"] --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
   },
   {
-    "objectID": "iv-intro.html#quiz-threats-to-internal-validity",
-    "href": "iv-intro.html#quiz-threats-to-internal-validity",
+    "objectID": "iv-intro.html#ovb-and-inconsistency-of-ols",
+    "href": "iv-intro.html#ovb-and-inconsistency-of-ols",
     "title": "Instrumental Variable Method",
-    "section": "Quiz: Threats to Internal Validity",
-    "text": "Quiz: Threats to Internal Validity\nWhat are common potential threats to internal validity?\n\nOmitted variables bias\nMeasurement error in an independent variable\nSample selection bias\nSimultaneity\nAll of the above"
+    "section": "OVB and Inconsistency of OLS",
+    "text": "OVB and Inconsistency of OLS\n\nSuppose the true model is: \\[\nY_{i} = \\beta_{0} + \\beta_{1} X_{i} + \\beta_{2} A_{i} + u_{i}\n\\] where \\(A_{i}\\) is the omitted (but relevant) variable and \\(\\mathbb{E}[u_i|X_i A_i] =0\\)\nIf we omit \\(A_{i}\\) we have: \\[\nY_{i} = \\alpha_0 + \\alpha_1 X_i + v_{i}\n\\] where \\(v_{i}\\) is the composite error \\(v_{i} = \\beta_{2} A_{i} + u_{i}\\)\nWe can show that (exercise): \\[\n\\text{plim } \\hat{\\alpha}_{1}^{OLS} = \\beta_{1} + \\frac{\\text{Cov}(x_i, A_{i})}{\\mathbb{V}(x)}\n\\]"
   },
   {
-    "objectID": "iv-intro.html#iv-basic-idea",
-    "href": "iv-intro.html#iv-basic-idea",
+    "objectID": "iv-intro.html#other-potential-threats-to-internal-validity",
+    "href": "iv-intro.html#other-potential-threats-to-internal-validity",
     "title": "Instrumental Variable Method",
-    "section": "IV: Basic Idea",
-    "text": "IV: Basic Idea\n\n\n\nFor the equation: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}\n\\] IVs decompose \\(X\\) into two parts that are uncorrelated: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\]\n\n\\(\\text{Cov}(Z_i, u_i) = 0\\): the part uncorrelated with \\(u_i\\)\n\\(\\text{Cov}(v_i, u_i) \\ne 0\\): the part correlated with \\(u_i\\) and the source of endogeneity\nwith \\(\\text{Cov}(Z_i,v_i) = 0\\)\n\n\\(Z_{i}\\) is an instrumental variable\n\n\nExample: AK (1991)\n\\(\\text{Cov}(X, U) \\ne 0\\)\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument (QOB)\"] --&gt;|Relevance| X[\"X: Education\"]\n    X --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-|No direct effect - Exclusion| Y"
+    "section": "Other Potential Threats to Internal Validity",
+    "text": "Other Potential Threats to Internal Validity\nBesides omitted variables, OLS is inconsistent if there is:\n\nMeasurement error in an independent variable (e.g. voting intention)\nSample selection bias (e.g. job training program)\nSimultaneity and feedback (e.g. demand estimation)\n\nIVs create exogenous variation to identify causal impact."
+  },
+  {
+    "objectID": "iv-intro.html#instrumental-variable-basic-idea",
+    "href": "iv-intro.html#instrumental-variable-basic-idea",
+    "title": "Instrumental Variable Method",
+    "section": "Instrumental Variable: Basic Idea",
+    "text": "Instrumental Variable: Basic Idea\n\n\n\nFor the equation: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}\n\\] IVs decompose \\(X\\) into two parts that are uncorrelated: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\]\n\n\\(\\text{Cov}(Z_i, u_i) = 0\\): the part uncorrelated with \\(u_i\\)\n\\(\\text{Cov}(v_i, u_i) \\ne 0\\): the part correlated with \\(u_i\\) and the source of endogeneity\nwith \\(\\text{Cov}(Z_i,v_i) = 0\\)\n\n\\(Z_{i}\\) is an instrumental variable\n\n\nExample: AK (1991)\n\\(\\text{Cov}(X, U) \\ne 0\\)\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument (QOB)\"] --&gt;|Relevance| X[\"X: Education\"]\n    X --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-|No direct effect - Exclusion| Y"
   },
   {
     "objectID": "iv-intro.html#conditions-for-a-valid-instrument",
@@ -49,15 +56,15 @@
     "text": "Two Stage Least Squares (TSLS) Estimator\n\nSuppose we have an instrument \\(Z\\) that satisfies both instrument relevance and exogeneity conditions.\nWe can estimate \\(\\beta_1\\) using a two-step procedure:\n\nFirst stage regression: Regress \\(X\\) on \\(Z\\) (reduced form equation for \\(X\\)): \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\] Apply OLS and obtain predicted values \\(\\hat{X}_{i}\\)\nSecond stage regression: Regress \\(Y_{i}\\) on \\(\\hat{X}_{i}\\) \\[\nY_{i} = \\beta_0 + \\beta_1 \\hat{X}_{i} + u_{i}\n\\] The TSLS estimators \\(\\beta_{0}^{TSLS}\\) and \\(\\beta_{1}^{TSLS}\\) are obtained from the second stage regression. Note: OLS s.e. of second stage regression is incorrect. Use statistical software"
   },
   {
-    "objectID": "iv-intro.html#angrist-and-krueger-1991",
-    "href": "iv-intro.html#angrist-and-krueger-1991",
+    "objectID": "iv-intro.html#example-angrist-and-krueger-1991",
+    "href": "iv-intro.html#example-angrist-and-krueger-1991",
     "title": "Instrumental Variable Method",
-    "section": "Angrist and Krueger (1991)",
-    "text": "Angrist and Krueger (1991)\n\n\nexpand for full code\n# Angrist and Krueger (1991) - Table IV - Col (7) and (8)\n\n# load packages and data --------------------\nlibrary(\"modelsummary\")\nlibrary(\"ivreg\")\n\n# create variables for regression -------------------------\nyr_v &lt;- grep(\"^yr\", names(ak91), value = TRUE)\nyr_v &lt;- yr_v[yr_v %in% \"yr9\" == FALSE]\n\nqtr1_v &lt;- grep(\"^qtr1\", names(ak91), value = TRUE)\nqtr1_v &lt;- qtr1_v[qtr1_v %in% \"qtr1\" == FALSE]\n\nqtr2_v &lt;- grep(\"^qtr2\", names(ak91), value = TRUE)\nqtr2_v &lt;- qtr2_v[qtr2_v %in% \"qtr2\" == FALSE]\n\nqtr3_v &lt;- grep(\"^qtr3\", names(ak91), value = TRUE)\nqtr3_v &lt;- qtr3_v[qtr3_v %in% \"qtr3\" == FALSE]\n\n# gather variables -------------------------------\nX_exog &lt;- c(\n    \"race\",\n    \"married\",\n    \"smsa\",\n    \"neweng\",\n    \"midatl\",\n    \"enocent\",\n    \"wnocent\",\n    \"soatl\",\n    \"esocent\",\n    \"wsocent\",\n    \"mt\",\n    \"ageq\",\n    \"ageqsq\"\n)\nX_endog &lt;- \"educ\"\nZ_inst &lt;- c(yr_v, qtr1_v, qtr2_v, qtr3_v)\n\n# OLS model ------------------------------------\nols_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_endog, X_exog, yr_v), collapse = \" + \")\n    )\n)\nols_model &lt;- lm(ols_fml, data = ak91)\nsummary(ols_model)\n\n# IV model -------------------------------------\niv_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_exog, yr_v), collapse = \" + \"),\n        \"|\",\n        X_endog,\n        \"|\",\n        paste(Z_inst, collapse = \" + \")\n    )\n)\niv_model &lt;- ivreg(iv_fml, data = ak91)\nsummary(iv_model)\n\n# print results --------------------------------\nm_list &lt;- list(\n    \"OLS\" = ols_model,\n    \"IV\" = iv_model\n)\n\ncm &lt;- c(\"educ\" = \"Education\")\n\ngm &lt;- list(\n    list(\"raw\" = \"nobs\", \"clean\" = \"Observations\", \"fmt\" = 0),\n    list(\"raw\" = \"r.squared\", \"clean\" = \"R²\", \"fmt\" = 3)\n)\n\nmsummary(m_list, stars = TRUE, gof_map = gm, coef_map = cm, output = \"markdown\")\n\n\nDependent variable: log weekly wages\n\n\n\n\n\n\n\n\n\nOLS\nIV\n\n\n\n\nEducation\n0.070***\n0.103**\n\n\n\n(0.000)\n(0.033)\n\n\nObservations\n247199\n247199\n\n\nR²\n0.230\n0.204\n\n\n\n\np &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\n\n\n\n\\(\\beta_{1}^{TSLS} &gt; \\beta_{1}^{OLS}\\) : school “completion” effect due to compulsory schooling."
+    "section": "Example: Angrist and Krueger (1991)",
+    "text": "Example: Angrist and Krueger (1991)\n\n“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”\n\n\n\nexpand for full code\n# load libraries -------------------------\nlibrary(\"haven\")\nlibrary(\"janitor\")\nlibrary(\"dplyr\")\nlibrary(\"zoo\")\nlibrary(\"ggplot2\")\nlibrary(\"patchwork\")\n\nak91 &lt;- read_dta(paste0(path, \"/ak91_2029.dta\"))\n\n# clean data and create variables ------------------------\nak91 &lt;- ak91 %&gt;%\n    clean_names() %&gt;%\n    mutate(yob = yob + 1900)\n\nak91 &lt;- ak91 %&gt;%\n    mutate(\n        yr_qtr = as.yearqtr(paste(yob, qob), format = \"%Y %q\")\n    )\n\n# average yr_qtr data -------------------------------\nak91_qtr &lt;- ak91 %&gt;%\n    group_by(yr_qtr) %&gt;%\n    summarise(\n        lwklywge_mean = mean(lwklywge, na.rm = TRUE),\n        educ_mean = mean(educ, na.rm = TRUE)\n    )\n\n# plot and save ------------------------------------\nrf_plot &lt;- ggplot(ak91_qtr, aes(x = yr_qtr, y = lwklywge_mean)) +\n    geom_point(size = 2) +\n    geom_line() +\n    labs(\n        x = \"Year-Quarter\",\n        y = \"Average of log weekly wages\",\n        title = \"Quarterly Average of Log Weekly Wage (1920-29 Cohort)\"\n    ) +\n    theme_bw()\nrf_plot\n\ninst_plot &lt;- ggplot(ak91_qtr, aes(x = yr_qtr, y = educ_mean)) +\n    geom_point(size = 2) +\n    geom_line() +\n    labs(\n        x = \"Year-Quarter\",\n        y = \"Average Years of Education\",\n        title = \"Quarterly Average Years of Education (1920-29 Cohort)\"\n    ) +\n    theme_bw()\ninst_plot\n\nggsave(\n    \"ak91_2029_combined.png\",\n    rf_plot + inst_plot,\n    width = 12,\n    height = 5,\n    dpi = 300\n)"
   },
   {
-    "objectID": "iv-intro.html#angrist-and-krueger-1991-1",
-    "href": "iv-intro.html#angrist-and-krueger-1991-1",
+    "objectID": "iv-intro.html#angrist-and-krueger-1991",
+    "href": "iv-intro.html#angrist-and-krueger-1991",
     "title": "Instrumental Variable Method",
     "section": "Angrist and Krueger (1991)",
     "text": "Angrist and Krueger (1991)\n\n\nexpand for full code\n# Angrist and Krueger (1991) - Table IV - Col (7) and (8)\n\n# load packages and data --------------------\nlibrary(\"modelsummary\")\nlibrary(\"ivreg\")\n\n# create variables for regression -------------------------\nyr_v &lt;- grep(\"^yr\", names(ak91), value = TRUE)\nyr_v &lt;- yr_v[yr_v %in% \"yr9\" == FALSE]\n\nqtr1_v &lt;- grep(\"^qtr1\", names(ak91), value = TRUE)\nqtr1_v &lt;- qtr1_v[qtr1_v %in% \"qtr1\" == FALSE]\n\nqtr2_v &lt;- grep(\"^qtr2\", names(ak91), value = TRUE)\nqtr2_v &lt;- qtr2_v[qtr2_v %in% \"qtr2\" == FALSE]\n\nqtr3_v &lt;- grep(\"^qtr3\", names(ak91), value = TRUE)\nqtr3_v &lt;- qtr3_v[qtr3_v %in% \"qtr3\" == FALSE]\n\n# gather variables -------------------------------\nX_exog &lt;- c(\n    \"race\",\n    \"married\",\n    \"smsa\",\n    \"neweng\",\n    \"midatl\",\n    \"enocent\",\n    \"wnocent\",\n    \"soatl\",\n    \"esocent\",\n    \"wsocent\",\n    \"mt\",\n    \"ageq\",\n    \"ageqsq\"\n)\nX_endog &lt;- \"educ\"\nZ_inst &lt;- c(yr_v, qtr1_v, qtr2_v, qtr3_v)\n\n# OLS model ------------------------------------\nols_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_endog, X_exog, yr_v), collapse = \" + \")\n    )\n)\nols_model &lt;- lm(ols_fml, data = ak91)\nsummary(ols_model)\n\n# IV model -------------------------------------\niv_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_exog, yr_v), collapse = \" + \"),\n        \"|\",\n        X_endog,\n        \"|\",\n        paste(Z_inst, collapse = \" + \")\n    )\n)\niv_model &lt;- ivreg(iv_fml, data = ak91)\nsummary(iv_model)\n\n# print results --------------------------------\nm_list &lt;- list(\n    \"OLS\" = ols_model,\n    \"IV\" = iv_model\n)\n\ncm &lt;- c(\"educ\" = \"Education\")\n\ngm &lt;- list(\n    list(\"raw\" = \"nobs\", \"clean\" = \"Observations\", \"fmt\" = 0),\n    list(\"raw\" = \"r.squared\", \"clean\" = \"R²\", \"fmt\" = 3)\n)\n\nmsummary(m_list, stars = TRUE, gof_map = gm, coef_map = cm, output = \"markdown\")\n\n\nDependent variable: log weekly wages\n\n\n\n\n\n\n\n\n\nOLS\nIV\n\n\n\n\nEducation\n0.070***\n0.103**\n\n\n\n(0.000)\n(0.033)\n\n\nObservations\n247199\n247199\n\n\nR²\n0.230\n0.204\n\n\n\n\np &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\n\n\n\n\\(\\beta_{1}^{TSLS} &gt; \\beta_{1}^{OLS}\\) : school “completion” effect due to compulsory schooling."
@@ -70,18 +77,11 @@
     "text": "Next Steps\n\nGeneral IV regression (additional regressors, multiple instruments)\n\nSargan J-Test of overidentifying restriction\n\nWeak Instruments (Stock and Yogo 2002; Andrews et al. 2019)\n\nAK(1991) reanalysis (Bound et al. 1995)\nAnderson-Rubin test\n\nHeterogenous treatment effects (LATE vs. ATE)\n\nCompliers, Always takers, Never takers, Defiers"
   },
   {
-    "objectID": "iv-intro.html#setup",
-    "href": "iv-intro.html#setup",
+    "objectID": "iv-intro.html#exercise-sheet",
+    "href": "iv-intro.html#exercise-sheet",
     "title": "Instrumental Variable Method",
-    "section": "Setup",
-    "text": "Setup\nDownload PDF file."
-  },
-  {
-    "objectID": "iv-intro.html#ajr-2001",
-    "href": "iv-intro.html#ajr-2001",
-    "title": "Instrumental Variable Method",
-    "section": "AJR (2001)",
-    "text": "AJR (2001)\nAcemoglu, Daron, Simon Johnson, and James A. Robinson. 2001. “The Colonial Origins of Comparative Development: An Empirical Investigation.” American Economic Review 91 (5): 1369–1401. [link]\n\nWe exploit differences in European mortality rates to estimate the effect of institutions on economic performance. Europeans adopted very different colonization policies in different colonies, with different associated institutions. In places where Europeans faced high mortality rates, they could not settle and were more likely to set up extractive institutions. These institutions persisted to the present. Exploiting differences in European mortality rates as an instrument for current institutions, we estimate large effects of institutions on income per capita. Once the effect of institutions is controlled for, countries in Africa or those closer to the equator do not have lower incomes. - Acemoglu et al. (2001)\n\nRead about their contribution 2024 Nobel Prize in Economics"
+    "section": "Exercise Sheet",
+    "text": "Exercise Sheet\nDownload PDF file."
   },
   {
     "objectID": "iv-intro.html#ajr-2001-main-idea",
@@ -133,34 +133,6 @@
     "text": "Quiz: IV Interpretation\nWhat does the IV estimate capture?\n\nCorrelation only\nAverage treatment effect for all countries\nPrediction error\nCausal effect using exogenous variation"
   },
   {
-    "objectID": "iv-intro.html#iv-exclusion-restriction",
-    "href": "iv-intro.html#iv-exclusion-restriction",
-    "title": "Instrumental Variable Method",
-    "section": "IV: Exclusion Restriction",
-    "text": "IV: Exclusion Restriction"
-  },
-  {
-    "objectID": "iv-intro.html#references",
-    "href": "iv-intro.html#references",
-    "title": "Instrumental Variable Method",
-    "section": "References",
-    "text": "References\n\n\n\n\nAcemoglu, Daron, Simon Johnson, and James A Robinson. 2012. “The Colonial Origins of Comparative Development: An Empirical Investigation: Reply.” American Economic Review 102 (6): 3077–110.\n\n\nAlbouy, David Y. 2012. “The Colonial Origins of Comparative Development: An Empirical Investigation: Comment.” American Economic Review 102 (6): 3059–76.\n\n\nAndrews, Isaiah, James H Stock, and Liyang Sun. 2019. “Weak Instruments in Instrumental Variables Regression: Theory and Practice.” Annual Review of Economics 11 (1): 727–53.\n\n\nAngrist, Joshua D, and Alan B Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): 979–1014.\n\n\nBound, John, David A Jaeger, and Regina M Baker. 1995. “Problems with Instrumental Variables Estimation When the Correlation Between the Instruments and the Endogenous Explanatory Variable Is Weak.” Journal of the American Statistical Association 90 (430): 443–50.\n\n\nStock, James H, and Motohiro Yogo. 2002. Testing for Weak Instruments in Linear IV Regression. National Bureau of Economic Research Cambridge, Mass., USA."
-  },
-  {
-    "objectID": "iv-intro.html#exercise-sheet",
-    "href": "iv-intro.html#exercise-sheet",
-    "title": "Instrumental Variable Method",
-    "section": "Exercise Sheet",
-    "text": "Exercise Sheet\nDownload PDF file."
-  },
-  {
-    "objectID": "iv-intro.html#example-angrist-and-krueger-1991",
-    "href": "iv-intro.html#example-angrist-and-krueger-1991",
-    "title": "Instrumental Variable Method",
-    "section": "Example: Angrist and Krueger (1991)",
-    "text": "Example: Angrist and Krueger (1991)\n\n“The experiment stems from the fact that children born in different months of the year start school at different ages, while compulsory schooling laws generally require students to remain in school until their sixteenth or seventeenth birthday”\n\n\n\nexpand for full code\n# load libraries -------------------------\nlibrary(\"haven\")\nlibrary(\"janitor\")\nlibrary(\"dplyr\")\nlibrary(\"zoo\")\nlibrary(\"ggplot2\")\nlibrary(\"patchwork\")\n\nak91 &lt;- read_dta(paste0(path, \"/ak91_2029.dta\"))\n\n# clean data and create variables ------------------------\nak91 &lt;- ak91 %&gt;%\n    clean_names() %&gt;%\n    mutate(yob = yob + 1900)\n\nak91 &lt;- ak91 %&gt;%\n    mutate(\n        yr_qtr = as.yearqtr(paste(yob, qob), format = \"%Y %q\")\n    )\n\n# average yr_qtr data -------------------------------\nak91_qtr &lt;- ak91 %&gt;%\n    group_by(yr_qtr) %&gt;%\n    summarise(\n        lwklywge_mean = mean(lwklywge, na.rm = TRUE),\n        educ_mean = mean(educ, na.rm = TRUE)\n    )\n\n# plot and save ------------------------------------\nrf_plot &lt;- ggplot(ak91_qtr, aes(x = yr_qtr, y = lwklywge_mean)) +\n    geom_point(size = 2) +\n    geom_line() +\n    labs(\n        x = \"Year-Quarter\",\n        y = \"Average of log weekly wages\",\n        title = \"Quarterly Average of Log Weekly Wage (1920-29 Cohort)\"\n    ) +\n    theme_bw()\nrf_plot\n\ninst_plot &lt;- ggplot(ak91_qtr, aes(x = yr_qtr, y = educ_mean)) +\n    geom_point(size = 2) +\n    geom_line() +\n    labs(\n        x = \"Year-Quarter\",\n        y = \"Average Years of Education\",\n        title = \"Quarterly Average Years of Education (1920-29 Cohort)\"\n    ) +\n    theme_bw()\ninst_plot\n\nggsave(\n    \"ak91_2029_combined.png\",\n    rf_plot + inst_plot,\n    width = 12,\n    height = 5,\n    dpi = 300\n)"
-  },
-  {
     "objectID": "iv-intro.html#iv-instrument-validity",
     "href": "iv-intro.html#iv-instrument-validity",
     "title": "Instrumental Variable Method",
@@ -168,24 +140,10 @@
     "text": "IV: Instrument Validity\nExclusion restriction may be an issue.\nAlbouy (2012):\n\nMeasurement Error: Doubts the reliability and comparability of European settler mortality rates used in AJR\n\n36 out of 64 assigned mortality rates based on conjecture\nclustering s.e. noticeably reduces significance\nuse of peak vs. average mortality rates\n\nWeak Instrument: Addressing some of these issues weakens the relationship between settler mortality rates and institutions ## References {.tiny-slide}\n\nAcemoglu et al. (2012):\n“Neither of Albouy’s claim is compelling.”"
   },
   {
-    "objectID": "iv-intro.html#ovb-and-inconsistency-of-ols",
-    "href": "iv-intro.html#ovb-and-inconsistency-of-ols",
+    "objectID": "iv-intro.html#references",
+    "href": "iv-intro.html#references",
     "title": "Instrumental Variable Method",
-    "section": "OVB and Inconsistency of OLS",
-    "text": "OVB and Inconsistency of OLS\n\nSuppose the true model is: \\[\nY_{i} = \\beta_{0} + \\beta_{1} X_{i} + \\beta_{2} A_{i} + u_{i}\n\\] where \\(A_{i}\\) is the omitted (but relevant) variable and \\(\\mathbb{E}[u_i|X_i A_i] =0\\)\nIf we omit \\(A_{i}\\) we have: \\[\nY_{i} = \\alpha_0 + \\alpha_1 X_i + v_{i}\n\\] where \\(v_{i}\\) is the composite error \\(v_{i} = \\beta_{2} A_{i} + u_{i}\\)\nWe can show that (exercise): \\[\n\\text{plim } \\hat{\\alpha}_{1}^{OLS} = \\beta_{1} + \\frac{\\text{Cov}(x_i, A_{i})}{\\mathbb{V}(x)}\n\\]"
-  },
-  {
-    "objectID": "iv-intro.html#instrumental-variable-basic-idea",
-    "href": "iv-intro.html#instrumental-variable-basic-idea",
-    "title": "Instrumental Variable Method",
-    "section": "Instrumental Variable: Basic Idea",
-    "text": "Instrumental Variable: Basic Idea\n\n\n\nFor the equation: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}\n\\] IVs decompose \\(X\\) into two parts that are uncorrelated: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\]\n\n\\(\\text{Cov}(Z_i, u_i) = 0\\): the part uncorrelated with \\(u_i\\)\n\\(\\text{Cov}(v_i, u_i) \\ne 0\\): the part correlated with \\(u_i\\) and the source of endogeneity\nwith \\(\\text{Cov}(Z_i,v_i) = 0\\)\n\n\\(Z_{i}\\) is an instrumental variable\n\n\nExample: AK (1991)\n\\(\\text{Cov}(X, U) \\ne 0\\)\n\n\n\n\n\nflowchart TD\n    Z[\"Z: Instrument (QOB)\"] --&gt;|Relevance| X[\"X: Education\"]\n    X --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y\n    \n    Z -.-|No direct effect - Exclusion| Y"
-  },
-  {
-    "objectID": "iv-intro.html#other-potential-threats-to-internal-validity",
-    "href": "iv-intro.html#other-potential-threats-to-internal-validity",
-    "title": "Instrumental Variable Method",
-    "section": "Other Potential Threats to Internal Validity",
-    "text": "Other Potential Threats to Internal Validity\nBesides omitted variables, OLS is inconsistent if there is:\n\nMeasurement error in an independent variable (e.g. voting intention)\nSample selection bias (e.g. job training program)\nSimultaneity and feedback (e.g. demand estimation)\n\nIVs create exogenous variation to identify causal impact."
+    "section": "References",
+    "text": "References\n\n\n\n\nAcemoglu, Daron, Simon Johnson, and James A Robinson. 2012. “The Colonial Origins of Comparative Development: An Empirical Investigation: Reply.” American Economic Review 102 (6): 3077–110.\n\n\nAlbouy, David Y. 2012. “The Colonial Origins of Comparative Development: An Empirical Investigation: Comment.” American Economic Review 102 (6): 3059–76.\n\n\nAndrews, Isaiah, James H Stock, and Liyang Sun. 2019. “Weak Instruments in Instrumental Variables Regression: Theory and Practice.” Annual Review of Economics 11 (1): 727–53.\n\n\nAngrist, Joshua D, and Alan B Krueger. 1991. “Does Compulsory School Attendance Affect Schooling and Earnings?” The Quarterly Journal of Economics 106 (4): 979–1014.\n\n\nBound, John, David A Jaeger, and Regina M Baker. 1995. “Problems with Instrumental Variables Estimation When the Correlation Between the Instruments and the Endogenous Explanatory Variable Is Weak.” Journal of the American Statistical Association 90 (430): 443–50.\n\n\nStock, James H, and Motohiro Yogo. 2002. Testing for Weak Instruments in Linear IV Regression. National Bureau of Economic Research Cambridge, Mass., USA."
   }
 ]
