@@ -25,8 +25,9 @@ author:
     orcid: 0000-0002-6961-2502
     email: kailthya.subham@gmail.com
     affiliations: 
-date: last-modified
-date-format: "D MMM YYYY"
+date: "11 June 2026"
+# date: last-modified
+date-format: "D MMMM YYYY"
 execute:
   echo: true
 ---
