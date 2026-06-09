@@ -234,7 +234,7 @@ Subham Kailthya <a href="https://orcid.org/0000-0002-6961-2502" class="quarto-ti
 </div>
 </div>
 
-  <p class="date">6 Jun 2026</p>
+  <p class="date">9 Jun 2026</p>
 </section>
 <section id="setting" class="slide level2 small-slide">
 <h2>Setting</h2>
@@ -244,10 +244,10 @@ Subham Kailthya <a href="https://orcid.org/0000-0002-6961-2502" class="quarto-ti
 <li>Suppose our interest lies in estimating <span class="math inline">\(\beta_1\)</span>, the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, in the linear regression: <span class="math display">\[
 Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 \]</span></li>
-<li>Assumption: <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is consistent for <span class="math inline">\(\beta\)</span> if: <span class="math display">\[
+<li><span class="math inline">\(\hat{\beta}^{OLS}\)</span> is consistent for <span class="math inline">\(\beta\)</span> if: <span class="math display">\[
 \mathbb{E}[u_i|X_i] = 0
 \]</span> i.e.&nbsp;<span class="math inline">\(X_i\)</span> is <strong>exogenous</strong> and contains no information on <span class="math inline">\(u_i\)</span>.</li>
-<li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and all <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is <span class="fg">inconsistent</span> (invalid even in large samples).</li>
+<li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is <span class="fg">inconsistent</span> (i.e.&nbsp;invalid even in large samples).</li>
 <li>Example: <span class="citation" data-cites="angrist1991does">Angrist and Krueger (<a href="#/references" role="doc-biblioref" onclick="">1991</a>)</span> study the effect of compulsory schooling laws in the US on returns to education (see DAG).</li>
 </ul>
 </div><div class="column" style="width:30%;">
@@ -273,26 +273,25 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 <section id="ovb-and-inconsistency-of-ols" class="slide level2 small-slide">
 <h2>OVB and Inconsistency of OLS</h2>
 <ul>
-<li>Suppose the true model is: <span class="math display">\[
-Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} A_{i} + u_{i}
-\]</span> where <span class="math inline">\(A_{i}\)</span> is the <em>omitted</em> (but relevant) variable and <span class="math inline">\(\mathbb{E}[u_i|X_i A_i] =0\)</span></li>
-<li>If we omit <span class="math inline">\(A_{i}\)</span> we have: <span class="math display">\[
+<li>Suppose the dgp is: <span class="math display">\[
+Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} {\color{orange} A_{i}} + u_{i}
+\]</span> where <span class="math inline">\({\color{orange} A_{i}}\)</span> is the <em>omitted</em> (but relevant) variable and <span class="math inline">\(\mathbb{E}[u_i|X_i {\color{orange} A_{i}}] =0\)</span></li>
+<li>If we omit <span class="math inline">\({\color{orange} A_{i}}\)</span> we estimate: <span class="math display">\[
 Y_{i} = \alpha_0 + \alpha_1 X_i + v_{i}
-\]</span> where <span class="math inline">\(v_{i}\)</span> is the composite error <span class="math inline">\(v_{i} = \beta_{2} A_{i} + u_{i}\)</span></li>
+\]</span> where <span class="math inline">\(v_{i}\)</span> is now the composite error <span class="math inline">\(v_{i} = \beta_{2} {\color{orange} A_{i}} + u_{i}\)</span></li>
 <li>We can show that (exercise): <span class="math display">\[
-\text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, A_{i})}{\mathbb{V}(x)}
+\text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, {\color{orange} A_{i}})}{\mathbb{V}(x)}
 \]</span></li>
 </ul>
-</section>
-<section id="other-potential-threats-to-internal-validity" class="slide level2">
-<h2>Other Potential Threats to Internal Validity</h2>
-<p>Besides omitted variables, OLS is inconsistent if there is:</p>
-<ul>
-<li>Measurement error in an independent variable (e.g.&nbsp;voting intention)</li>
-<li>Sample selection bias (e.g.&nbsp;job training program)</li>
-<li>Simultaneity and feedback (e.g.&nbsp;demand estimation)</li>
-</ul>
-<p>IVs create <span class="fg">exogenous variation</span> to identify causal impact.</p>
+<!-- ## Other Potential Threats to Internal Validity
+
+Besides omitted variables, OLS is inconsistent if there is:
+
+- Measurement error in an independent variable (e.g. voting intention)
+- Sample selection bias (e.g. job training program)
+- Simultaneity and feedback (e.g. demand estimation)
+
+IVs create [exogenous variation]{.fg} to identify causal impact. -->
 <!-- ## Quiz: Threats to Internal Validity {.quiz-question .small-slide}
 
 What are common potential threats to internal validity?
@@ -375,49 +374,44 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad \mathbb{E}[u_{i}|X_{i}]\ne 0
 \]</span></p>
 <ul>
 <li><span class="math inline">\(Z\)</span> is continuous</li>
-<li>To capture the indirect effect of <span class="math inline">\(Z\)</span>: <span class="math display">\[
+<li>Taking <span class="math inline">\(\text{cov}\)</span> of above eq. w.r.t <span class="math inline">\(Z_{i}\)</span> (linear operator), we get: <span class="math display">\[
 \begin{aligned}
 \text{Cov}(Y_{i},Z_{i}) &amp;= \text{Cov}(\beta_0 + \beta_1 X_{i} + u_i, Z_{i}) \\
-&amp;= \beta_1 \text{Cov}(X_{i}, Z_{i}), \quad \text{since } \text{Cov}(Z_{i}, u_{i}) = 0
+&amp;= \beta_1 \text{Cov}(X_{i}, Z_{i}), \quad\quad [\text{since } \text{Cov}(Z_{i}, u_{i}) = 0]
 \end{aligned}
 \]</span></li>
 <li>Rearranging, we get the <span class="fg">instrumental variable estimator</span>: <span class="math display">\[
-\begin{aligned}
-\beta_{1}^{IV} &amp;= \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})}\\
-&amp; =\frac{s_{YZ}}{s_{ZX}}
-\end{aligned}
+\boxed{\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} =\frac{s_{YZ}}{s_{ZX}}}
 \]</span></li>
 </ul>
 </section>
 <section id="large-sample-properties-of-beta_1iv" class="slide level2 small-slide">
 <h2>Large Sample Properties of <span class="math inline">\(\beta_{1}^{IV}\)</span></h2>
-<p><span class="fg">Consistency</span></p>
-<p>Due to LLN, <span class="math inline">\(s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)\)</span> and <span class="math inline">\(s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)\)</span>.</p>
-<p>It follows that: <span class="math display">\[
-\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1
+<p><span class="fg">Consistency:</span> Due to LLN, <span class="math inline">\(s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)\)</span> and <span class="math inline">\(s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)\)</span>. It follows that: <span class="math display">\[
+\boxed{\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1}
 \]</span></p>
-<div class="center">
-<p><span class="alert"><span class="math inline">\(\beta_{1}^{IV}\)</span> is consistent</span></p>
-</div>
-<p><span class="fg">Normality</span></p>
-<p>From the CLT, <span class="math display">\[
+<!-- :::{.center}
+[$\beta_{1}^{IV}$ is consistent]{.alert}
+::: -->
+<p><span class="fg">Normality:</span> From the CLT, <span class="math display">\[
 \beta_{1}^{IV} \stackrel{a}{\sim} N(\beta_1, \sigma^{2}_{\hat{\beta}_{1}^{TSLS}}) \quad \text{ where,}
 \]</span> <span class="math display">\[
-\sigma^{2}_{\hat{\beta}_{1}^{TSLS}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}
+\boxed{\sigma^{2}_{\hat{\beta}_{1}^{IV}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}}
 \]</span></p>
 </section>
 <section id="two-stage-least-squares-tsls-estimator" class="slide level2 small-slide">
 <h2>Two Stage Least Squares (TSLS) Estimator</h2>
 <ul>
 <li>Suppose we have an instrument <span class="math inline">\(Z\)</span> that satisfies both instrument relevance and exogeneity conditions.</li>
-<li>We can estimate <span class="math inline">\(\beta_1\)</span> using a two-step procedure:
+<li>Recall, <span class="math inline">\(\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} \implies \frac{\text{Cov}(Y_{i},Z_{i})/V(Z_{i})}{\text{Cov}(X_{i}, Z_{i})/V(Z_i)} = \frac{\text{Reduced form}}{\text{First stage}}\)</span></li>
+<li>We can estimate <span class="math inline">\(\beta_1\)</span> using a two-step process:
 <ul>
-<li><span class="fg">First stage regression</span>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> (reduced form equation for <span class="math inline">\(X\)</span>): <span class="math display">\[
+<li><span class="fg">First stage regression</span>: Regress <span class="math inline">\(X\)</span> on <span class="math inline">\(Z\)</span> using OLS: <span class="math display">\[
 X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
-\]</span> Apply OLS and obtain predicted values <span class="math inline">\(\hat{X}_{i}\)</span></li>
+\]</span> and obtain predicted values <span class="math inline">\(\hat{X}_{i}\)</span></li>
 <li><span class="fg">Second stage regression</span>: Regress <span class="math inline">\(Y_{i}\)</span> on <span class="math inline">\(\hat{X}_{i}\)</span> <span class="math display">\[
 Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
-\]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression. <span class="note">Note:</span> OLS s.e. of second stage regression is incorrect. Use statistical software</li>
+\]</span> The TSLS estimators <span class="math inline">\(\beta_{0}^{TSLS}\)</span> and <span class="math inline">\(\beta_{1}^{TSLS}\)</span> are obtained from the second stage regression. <span class="warning">Note:</span> OLS s.e. of second stage regression is incorrect. Use statistical software for estimation.</li>
 </ul></li>
 </ul>
 </section>
@@ -620,8 +614,8 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 </table>
 <p><span class="math inline">\(\beta_{1}^{TSLS} &gt; \beta_{1}^{OLS}\)</span> : school “completion” effect due to compulsory schooling.</p>
 </section>
-<section id="next-steps" class="slide level2 small-slide">
-<h2>Next Steps</h2>
+<section id="whats-next" class="slide level2 small-slide">
+<h2>What’s Next?</h2>
 <ul>
 <li>General IV regression (additional regressors, multiple instruments)
 <ul>
@@ -909,9 +903,9 @@ R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i}
 <li><span class="correct">Causal effect using exogenous variation</span></li>
 </ul>
 </section>
-<section id="iv-instrument-validity" class="slide level2 small-slide">
-<h2>IV: Instrument Validity</h2>
-<p>Exclusion restriction may be an issue.</p>
+<section id="discussion-instrument-exogeneity" class="slide level2 small-slide">
+<h2>Discussion: Instrument Exogeneity</h2>
+<p>Exclusion restriction is likely an issue.</p>
 <p><span class="citation" data-cites="albouy2012colonial">Albouy (<a href="#/references" role="doc-biblioref" onclick="">2012</a>)</span>:</p>
 <ul>
 <li><strong>Measurement Error</strong>: Doubts the reliability and comparability of European settler mortality rates used in AJR

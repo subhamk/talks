@@ -4,21 +4,14 @@
     "href": "iv-intro.html#setting",
     "title": "Instrumental Variable Method",
     "section": "Setting",
-    "text": "Setting\n\n\n\nSuppose our interest lies in estimating \\(\\beta_1\\), the causal effect of \\(X\\) on \\(Y\\), in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad i=1, \\ldots, N\n\\]\nAssumption: \\(\\hat{\\beta}^{OLS}\\) is consistent for \\(\\beta\\) if: \\[\n\\mathbb{E}[u_i|X_i] = 0\n\\] i.e. \\(X_i\\) is exogenous and contains no information on \\(u_i\\).\nWhen \\(\\mathbb{E}[u_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and all \\(\\hat{\\beta}^{OLS}\\) is inconsistent (invalid even in large samples).\nExample: Angrist and Krueger (1991) study the effect of compulsory schooling laws in the US on returns to education (see DAG).\n\n\nDAG: Omitted Variable\n\n\n\n\n\nflowchart TD\n    X[\"X: Education\"] --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
+    "text": "Setting\n\n\n\nSuppose our interest lies in estimating \\(\\beta_1\\), the causal effect of \\(X\\) on \\(Y\\), in the linear regression: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad i=1, \\ldots, N\n\\]\n\\(\\hat{\\beta}^{OLS}\\) is consistent for \\(\\beta\\) if: \\[\n\\mathbb{E}[u_i|X_i] = 0\n\\] i.e. \\(X_i\\) is exogenous and contains no information on \\(u_i\\).\nWhen \\(\\mathbb{E}[u_i|X_i] \\ne 0\\), \\(X_i\\) is endogenous and \\(\\hat{\\beta}^{OLS}\\) is inconsistent (i.e. invalid even in large samples).\nExample: Angrist and Krueger (1991) study the effect of compulsory schooling laws in the US on returns to education (see DAG).\n\n\nDAG: Omitted Variable\n\n\n\n\n\nflowchart TD\n    X[\"X: Education\"] --&gt;|Causal effect| Y[\"Y: Earnings\"]\n    \n    U[\"U: Ability\"] --&gt; X\n    U --&gt; Y"
   },
   {
     "objectID": "iv-intro.html#ovb-and-inconsistency-of-ols",
     "href": "iv-intro.html#ovb-and-inconsistency-of-ols",
     "title": "Instrumental Variable Method",
     "section": "OVB and Inconsistency of OLS",
-    "text": "OVB and Inconsistency of OLS\n\nSuppose the true model is: \\[\nY_{i} = \\beta_{0} + \\beta_{1} X_{i} + \\beta_{2} A_{i} + u_{i}\n\\] where \\(A_{i}\\) is the omitted (but relevant) variable and \\(\\mathbb{E}[u_i|X_i A_i] =0\\)\nIf we omit \\(A_{i}\\) we have: \\[\nY_{i} = \\alpha_0 + \\alpha_1 X_i + v_{i}\n\\] where \\(v_{i}\\) is the composite error \\(v_{i} = \\beta_{2} A_{i} + u_{i}\\)\nWe can show that (exercise): \\[\n\\text{plim } \\hat{\\alpha}_{1}^{OLS} = \\beta_{1} + \\frac{\\text{Cov}(x_i, A_{i})}{\\mathbb{V}(x)}\n\\]"
-  },
-  {
-    "objectID": "iv-intro.html#other-potential-threats-to-internal-validity",
-    "href": "iv-intro.html#other-potential-threats-to-internal-validity",
-    "title": "Instrumental Variable Method",
-    "section": "Other Potential Threats to Internal Validity",
-    "text": "Other Potential Threats to Internal Validity\nBesides omitted variables, OLS is inconsistent if there is:\n\nMeasurement error in an independent variable (e.g. voting intention)\nSample selection bias (e.g. job training program)\nSimultaneity and feedback (e.g. demand estimation)\n\nIVs create exogenous variation to identify causal impact."
+    "text": "OVB and Inconsistency of OLS\n\nSuppose the dgp is: \\[\nY_{i} = \\beta_{0} + \\beta_{1} X_{i} + \\beta_{2} {\\color{orange} A_{i}} + u_{i}\n\\] where \\({\\color{orange} A_{i}}\\) is the omitted (but relevant) variable and \\(\\mathbb{E}[u_i|X_i {\\color{orange} A_{i}}] =0\\)\nIf we omit \\({\\color{orange} A_{i}}\\) we estimate: \\[\nY_{i} = \\alpha_0 + \\alpha_1 X_i + v_{i}\n\\] where \\(v_{i}\\) is now the composite error \\(v_{i} = \\beta_{2} {\\color{orange} A_{i}} + u_{i}\\)\nWe can show that (exercise): \\[\n\\text{plim } \\hat{\\alpha}_{1}^{OLS} = \\beta_{1} + \\frac{\\text{Cov}(x_i, {\\color{orange} A_{i}})}{\\mathbb{V}(x)}\n\\]"
   },
   {
     "objectID": "iv-intro.html#instrumental-variable-basic-idea",
@@ -39,21 +32,21 @@
     "href": "iv-intro.html#iv-regression-with-continuous-z",
     "title": "Instrumental Variable Method",
     "section": "IV Regression with Continuous \\(Z\\)",
-    "text": "IV Regression with Continuous \\(Z\\)\nConsider the same model: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad \\mathbb{E}[u_{i}|X_{i}]\\ne 0\n\\]\n\n\\(Z\\) is continuous\nTo capture the indirect effect of \\(Z\\): \\[\n\\begin{aligned}\n\\text{Cov}(Y_{i},Z_{i}) &= \\text{Cov}(\\beta_0 + \\beta_1 X_{i} + u_i, Z_{i}) \\\\\n&= \\beta_1 \\text{Cov}(X_{i}, Z_{i}), \\quad \\text{since } \\text{Cov}(Z_{i}, u_{i}) = 0\n\\end{aligned}\n\\]\nRearranging, we get the instrumental variable estimator: \\[\n\\begin{aligned}\n\\beta_{1}^{IV} &= \\frac{\\text{Cov}(Y_{i},Z_{i})}{\\text{Cov}(X_{i}, Z_{i})}\\\\\n& =\\frac{s_{YZ}}{s_{ZX}}\n\\end{aligned}\n\\]"
+    "text": "IV Regression with Continuous \\(Z\\)\nConsider the same model: \\[\nY_{i} = \\beta_0 + \\beta_1 X_{i} + u_{i}, \\quad \\mathbb{E}[u_{i}|X_{i}]\\ne 0\n\\]\n\n\\(Z\\) is continuous\nTaking \\(\\text{cov}\\) of above eq. w.r.t \\(Z_{i}\\) (linear operator), we get: \\[\n\\begin{aligned}\n\\text{Cov}(Y_{i},Z_{i}) &= \\text{Cov}(\\beta_0 + \\beta_1 X_{i} + u_i, Z_{i}) \\\\\n&= \\beta_1 \\text{Cov}(X_{i}, Z_{i}), \\quad\\quad [\\text{since } \\text{Cov}(Z_{i}, u_{i}) = 0]\n\\end{aligned}\n\\]\nRearranging, we get the instrumental variable estimator: \\[\n\\boxed{\\beta_{1}^{IV} = \\frac{\\text{Cov}(Y_{i},Z_{i})}{\\text{Cov}(X_{i}, Z_{i})} =\\frac{s_{YZ}}{s_{ZX}}}\n\\]"
   },
   {
     "objectID": "iv-intro.html#large-sample-properties-of-beta_1iv",
     "href": "iv-intro.html#large-sample-properties-of-beta_1iv",
     "title": "Instrumental Variable Method",
     "section": "Large Sample Properties of \\(\\beta_{1}^{IV}\\)",
-    "text": "Large Sample Properties of \\(\\beta_{1}^{IV}\\)\nConsistency\nDue to LLN, \\(s_{YZ} \\xrightarrow{p} \\text{Cov}(Z_i, Y_i)\\) and \\(s_{XZ} \\xrightarrow{p} \\text{Cov}(Z_i, X_i)\\).\nIt follows that: \\[\n\\beta_{1}^{IV} = \\frac{s_{YZ}}{s_{ZX}} \\xrightarrow{p} \\frac{\\text{Cov}(Z_i, Y_i)}{\\text{Cov}(Z_i, X_i)} = \\beta_1\n\\]\n\n\\(\\beta_{1}^{IV}\\) is consistent\n\nNormality\nFrom the CLT, \\[\n\\beta_{1}^{IV} \\stackrel{a}{\\sim} N(\\beta_1, \\sigma^{2}_{\\hat{\\beta}_{1}^{TSLS}}) \\quad \\text{ where,}\n\\] \\[\n\\sigma^{2}_{\\hat{\\beta}_{1}^{TSLS}} = \\frac{1}{n}\\frac{\\mathbb{V}[(Z_i - \\mu_Z)u_i]}{[\\text{Cov}(Z_{i}, X_{i})]^2}\n\\]"
+    "text": "Large Sample Properties of \\(\\beta_{1}^{IV}\\)\nConsistency: Due to LLN, \\(s_{YZ} \\xrightarrow{p} \\text{Cov}(Z_i, Y_i)\\) and \\(s_{XZ} \\xrightarrow{p} \\text{Cov}(Z_i, X_i)\\). It follows that: \\[\n\\boxed{\\beta_{1}^{IV} = \\frac{s_{YZ}}{s_{ZX}} \\xrightarrow{p} \\frac{\\text{Cov}(Z_i, Y_i)}{\\text{Cov}(Z_i, X_i)} = \\beta_1}\n\\]\n\nNormality: From the CLT, \\[\n\\beta_{1}^{IV} \\stackrel{a}{\\sim} N(\\beta_1, \\sigma^{2}_{\\hat{\\beta}_{1}^{TSLS}}) \\quad \\text{ where,}\n\\] \\[\n\\boxed{\\sigma^{2}_{\\hat{\\beta}_{1}^{IV}} = \\frac{1}{n}\\frac{\\mathbb{V}[(Z_i - \\mu_Z)u_i]}{[\\text{Cov}(Z_{i}, X_{i})]^2}}\n\\]"
   },
   {
     "objectID": "iv-intro.html#two-stage-least-squares-tsls-estimator",
     "href": "iv-intro.html#two-stage-least-squares-tsls-estimator",
     "title": "Instrumental Variable Method",
     "section": "Two Stage Least Squares (TSLS) Estimator",
-    "text": "Two Stage Least Squares (TSLS) Estimator\n\nSuppose we have an instrument \\(Z\\) that satisfies both instrument relevance and exogeneity conditions.\nWe can estimate \\(\\beta_1\\) using a two-step procedure:\n\nFirst stage regression: Regress \\(X\\) on \\(Z\\) (reduced form equation for \\(X\\)): \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\] Apply OLS and obtain predicted values \\(\\hat{X}_{i}\\)\nSecond stage regression: Regress \\(Y_{i}\\) on \\(\\hat{X}_{i}\\) \\[\nY_{i} = \\beta_0 + \\beta_1 \\hat{X}_{i} + u_{i}\n\\] The TSLS estimators \\(\\beta_{0}^{TSLS}\\) and \\(\\beta_{1}^{TSLS}\\) are obtained from the second stage regression. Note: OLS s.e. of second stage regression is incorrect. Use statistical software"
+    "text": "Two Stage Least Squares (TSLS) Estimator\n\nSuppose we have an instrument \\(Z\\) that satisfies both instrument relevance and exogeneity conditions.\nRecall, \\(\\beta_{1}^{IV} = \\frac{\\text{Cov}(Y_{i},Z_{i})}{\\text{Cov}(X_{i}, Z_{i})} \\implies \\frac{\\text{Cov}(Y_{i},Z_{i})/V(Z_{i})}{\\text{Cov}(X_{i}, Z_{i})/V(Z_i)} = \\frac{\\text{Reduced form}}{\\text{First stage}}\\)\nWe can estimate \\(\\beta_1\\) using a two-step process:\n\nFirst stage regression: Regress \\(X\\) on \\(Z\\) using OLS: \\[\nX_{i} = \\gamma_0 + \\gamma_1 Z_{i} + v_{i}\n\\] and obtain predicted values \\(\\hat{X}_{i}\\)\nSecond stage regression: Regress \\(Y_{i}\\) on \\(\\hat{X}_{i}\\) \\[\nY_{i} = \\beta_0 + \\beta_1 \\hat{X}_{i} + u_{i}\n\\] The TSLS estimators \\(\\beta_{0}^{TSLS}\\) and \\(\\beta_{1}^{TSLS}\\) are obtained from the second stage regression. Note: OLS s.e. of second stage regression is incorrect. Use statistical software for estimation."
   },
   {
     "objectID": "iv-intro.html#example-angrist-and-krueger-1991",
@@ -70,11 +63,11 @@
     "text": "Angrist and Krueger (1991)\n\n\nexpand for full code\n# Angrist and Krueger (1991) - Table IV - Col (7) and (8)\n\n# load packages and data --------------------\nlibrary(\"modelsummary\")\nlibrary(\"ivreg\")\n\n# create variables for regression -------------------------\nyr_v &lt;- grep(\"^yr\", names(ak91), value = TRUE)\nyr_v &lt;- yr_v[yr_v %in% \"yr9\" == FALSE]\n\nqtr1_v &lt;- grep(\"^qtr1\", names(ak91), value = TRUE)\nqtr1_v &lt;- qtr1_v[qtr1_v %in% \"qtr1\" == FALSE]\n\nqtr2_v &lt;- grep(\"^qtr2\", names(ak91), value = TRUE)\nqtr2_v &lt;- qtr2_v[qtr2_v %in% \"qtr2\" == FALSE]\n\nqtr3_v &lt;- grep(\"^qtr3\", names(ak91), value = TRUE)\nqtr3_v &lt;- qtr3_v[qtr3_v %in% \"qtr3\" == FALSE]\n\n# gather variables -------------------------------\nX_exog &lt;- c(\n    \"race\",\n    \"married\",\n    \"smsa\",\n    \"neweng\",\n    \"midatl\",\n    \"enocent\",\n    \"wnocent\",\n    \"soatl\",\n    \"esocent\",\n    \"wsocent\",\n    \"mt\",\n    \"ageq\",\n    \"ageqsq\"\n)\nX_endog &lt;- \"educ\"\nZ_inst &lt;- c(yr_v, qtr1_v, qtr2_v, qtr3_v)\n\n# OLS model ------------------------------------\nols_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_endog, X_exog, yr_v), collapse = \" + \")\n    )\n)\nols_model &lt;- lm(ols_fml, data = ak91)\nsummary(ols_model)\n\n# IV model -------------------------------------\niv_fml &lt;- as.formula(\n    paste(\n        \"lwklywge ~\",\n        paste(c(X_exog, yr_v), collapse = \" + \"),\n        \"|\",\n        X_endog,\n        \"|\",\n        paste(Z_inst, collapse = \" + \")\n    )\n)\niv_model &lt;- ivreg(iv_fml, data = ak91)\nsummary(iv_model)\n\n# print results --------------------------------\nm_list &lt;- list(\n    \"OLS\" = ols_model,\n    \"IV\" = iv_model\n)\n\ncm &lt;- c(\"educ\" = \"Education\")\n\ngm &lt;- list(\n    list(\"raw\" = \"nobs\", \"clean\" = \"Observations\", \"fmt\" = 0),\n    list(\"raw\" = \"r.squared\", \"clean\" = \"R²\", \"fmt\" = 3)\n)\n\nmsummary(m_list, stars = TRUE, gof_map = gm, coef_map = cm, output = \"markdown\")\n\n\nDependent variable: log weekly wages\n\n\n\n\n\n\n\n\n\nOLS\nIV\n\n\n\n\nEducation\n0.070***\n0.103**\n\n\n\n(0.000)\n(0.033)\n\n\nObservations\n247199\n247199\n\n\nR²\n0.230\n0.204\n\n\n\n\np &lt; 0.1, * p &lt; 0.05, ** p &lt; 0.01, *** p &lt; 0.001\n\n\n\n\n\n\\(\\beta_{1}^{TSLS} &gt; \\beta_{1}^{OLS}\\) : school “completion” effect due to compulsory schooling."
   },
   {
-    "objectID": "iv-intro.html#next-steps",
-    "href": "iv-intro.html#next-steps",
+    "objectID": "iv-intro.html#whats-next",
+    "href": "iv-intro.html#whats-next",
     "title": "Instrumental Variable Method",
-    "section": "Next Steps",
-    "text": "Next Steps\n\nGeneral IV regression (additional regressors, multiple instruments)\n\nSargan J-Test of overidentifying restriction\n\nWeak Instruments (Stock and Yogo 2002; Andrews et al. 2019)\n\nAK(1991) reanalysis (Bound et al. 1995)\nAnderson-Rubin test\n\nHeterogenous treatment effects (LATE vs. ATE)\n\nCompliers, Always takers, Never takers, Defiers"
+    "section": "What’s Next?",
+    "text": "What’s Next?\n\nGeneral IV regression (additional regressors, multiple instruments)\n\nSargan J-Test of overidentifying restriction\n\nWeak Instruments (Stock and Yogo 2002; Andrews et al. 2019)\n\nAK(1991) reanalysis (Bound et al. 1995)\nAnderson-Rubin test\n\nHeterogenous treatment effects (LATE vs. ATE)\n\nCompliers, Always takers, Never takers, Defiers"
   },
   {
     "objectID": "iv-intro.html#exercise-sheet",
@@ -133,11 +126,11 @@
     "text": "Quiz: IV Interpretation\nWhat does the IV estimate capture?\n\nCorrelation only\nAverage treatment effect for all countries\nPrediction error\nCausal effect using exogenous variation"
   },
   {
-    "objectID": "iv-intro.html#iv-instrument-validity",
-    "href": "iv-intro.html#iv-instrument-validity",
+    "objectID": "iv-intro.html#discussion-instrument-exogeneity",
+    "href": "iv-intro.html#discussion-instrument-exogeneity",
     "title": "Instrumental Variable Method",
-    "section": "IV: Instrument Validity",
-    "text": "IV: Instrument Validity\nExclusion restriction may be an issue.\nAlbouy (2012):\n\nMeasurement Error: Doubts the reliability and comparability of European settler mortality rates used in AJR\n\n36 out of 64 assigned mortality rates based on conjecture\nclustering s.e. noticeably reduces significance\nuse of peak vs. average mortality rates\n\nWeak Instrument: Addressing some of these issues weakens the relationship between settler mortality rates and institutions ## References {.tiny-slide}\n\nAcemoglu et al. (2012):\n“Neither of Albouy’s claim is compelling.”"
+    "section": "Discussion: Instrument Exogeneity",
+    "text": "Discussion: Instrument Exogeneity\nExclusion restriction is likely an issue.\nAlbouy (2012):\n\nMeasurement Error: Doubts the reliability and comparability of European settler mortality rates used in AJR\n\n36 out of 64 assigned mortality rates based on conjecture\nclustering s.e. noticeably reduces significance\nuse of peak vs. average mortality rates\n\nWeak Instrument: Addressing some of these issues weakens the relationship between settler mortality rates and institutions ## References {.tiny-slide}\n\nAcemoglu et al. (2012):\n“Neither of Albouy’s claim is compelling.”"
   },
   {
     "objectID": "iv-intro.html#references",

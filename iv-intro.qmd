@@ -40,12 +40,12 @@ execute:
 $$
 Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 $$
-- Assumption: $\hat{\beta}^{OLS}$ is consistent for $\beta$ if:
+- $\hat{\beta}^{OLS}$ is consistent for $\beta$ if:
 $$
 \mathbb{E}[u_i|X_i] = 0
 $$
 i.e. $X_i$ is **exogenous** and contains no information on $u_i$.
-- When $\mathbb{E}[u_i|X_i] \ne 0$, $X_i$ is **endogenous** and all $\hat{\beta}^{OLS}$ is [inconsistent]{.fg} (invalid even in large samples).
+- When $\mathbb{E}[u_i|X_i] \ne 0$, $X_i$ is **endogenous** and $\hat{\beta}^{OLS}$ is [inconsistent]{.fg} (i.e. invalid even in large samples).
 - Example: @angrist1991does study the effect of compulsory schooling laws in the US on returns to education (see DAG).
 :::
 
@@ -65,22 +65,22 @@ flowchart TD
 
 ## OVB and Inconsistency of OLS {.small-slide}
 
-- Suppose the true model is:
+- Suppose the dgp is:
 $$
-Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} A_{i} + u_{i}
+Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} {\color{orange} A_{i}} + u_{i}
 $$
-where $A_{i}$ is the *omitted* (but relevant) variable and $\mathbb{E}[u_i|X_i A_i] =0$
-- If we omit $A_{i}$ we have:
+where ${\color{orange} A_{i}}$ is the *omitted* (but relevant) variable and $\mathbb{E}[u_i|X_i {\color{orange} A_{i}}] =0$
+- If we omit ${\color{orange} A_{i}}$ we estimate:
 $$
 Y_{i} = \alpha_0 + \alpha_1 X_i + v_{i}
 $$
-where $v_{i}$ is the composite error $v_{i} = \beta_{2} A_{i} + u_{i}$
+where $v_{i}$ is now the composite error $v_{i} = \beta_{2} {\color{orange} A_{i}} + u_{i}$
 - We can show that (exercise):
 $$
-\text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, A_{i})}{\mathbb{V}(x)}
+\text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, {\color{orange} A_{i}})}{\mathbb{V}(x)}
 $$
 
-## Other Potential Threats to Internal Validity
+<!-- ## Other Potential Threats to Internal Validity
 
 Besides omitted variables, OLS is inconsistent if there is:
 
@@ -88,7 +88,7 @@ Besides omitted variables, OLS is inconsistent if there is:
 - Sample selection bias (e.g. job training program)
 - Simultaneity and feedback (e.g. demand estimation)
 
-IVs create [exogenous variation]{.fg} to identify causal impact.
+IVs create [exogenous variation]{.fg} to identify causal impact. -->
 
 <!-- ## Quiz: Threats to Internal Validity {.quiz-question .small-slide}
 
@@ -166,62 +166,54 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad \mathbb{E}[u_{i}|X_{i}]\ne 0
 $$
 
 - $Z$ is continuous
-- To capture the indirect effect of $Z$:
+- Taking $\text{cov}$ of above eq. w.r.t $Z_{i}$ (linear operator), we get:
 $$
 \begin{aligned}
 \text{Cov}(Y_{i},Z_{i}) &= \text{Cov}(\beta_0 + \beta_1 X_{i} + u_i, Z_{i}) \\
-&= \beta_1 \text{Cov}(X_{i}, Z_{i}), \quad \text{since } \text{Cov}(Z_{i}, u_{i}) = 0
+&= \beta_1 \text{Cov}(X_{i}, Z_{i}), \quad\quad [\text{since } \text{Cov}(Z_{i}, u_{i}) = 0]
 \end{aligned}
 $$
 - Rearranging, we get the [instrumental variable estimator]{.fg}:
 $$
-\begin{aligned}
-\beta_{1}^{IV} &= \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})}\\
-& =\frac{s_{YZ}}{s_{ZX}}
-\end{aligned}
+\boxed{\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} =\frac{s_{YZ}}{s_{ZX}}}
 $$
 
 ## Large Sample Properties of $\beta_{1}^{IV}$ {.small-slide}
 
-[Consistency]{.fg}
-
-Due to LLN, $s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)$ and $s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)$.
-
-It follows that: 
+[Consistency:]{.fg} Due to LLN, $s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)$ and $s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)$. It follows that: 
 $$
-\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1
+\boxed{\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1}
 $$
 
-:::{.center}
+<!-- :::{.center}
 [$\beta_{1}^{IV}$ is consistent]{.alert}
-:::
+::: -->
 
-[Normality]{.fg}
-
-From the CLT,
+[Normality:]{.fg} From the CLT,
 $$
 \beta_{1}^{IV} \stackrel{a}{\sim} N(\beta_1, \sigma^{2}_{\hat{\beta}_{1}^{TSLS}}) \quad \text{ where,}
 $$
 $$
-\sigma^{2}_{\hat{\beta}_{1}^{TSLS}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}
+\boxed{\sigma^{2}_{\hat{\beta}_{1}^{IV}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}}
 $$
 
 
 ## Two Stage Least Squares (TSLS) Estimator {.small-slide}
 
 - Suppose we have an instrument $Z$ that satisfies both instrument relevance and exogeneity conditions.
-- We can estimate $\beta_1$ using a two-step procedure:
-    - [First stage regression]{.fg}: Regress $X$ on $Z$ (reduced form equation for $X$):
+- Recall, $\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} \implies \frac{\text{Cov}(Y_{i},Z_{i})/V(Z_{i})}{\text{Cov}(X_{i}, Z_{i})/V(Z_i)} = \frac{\text{Reduced form}}{\text{First stage}}$
+- We can estimate $\beta_1$ using a two-step process:
+    - [First stage regression]{.fg}: Regress $X$ on $Z$ using OLS:
       $$
       X_{i} = \gamma_0 + \gamma_1 Z_{i} + v_{i}
       $$
-      Apply OLS and obtain predicted values $\hat{X}_{i}$
+      and obtain predicted values $\hat{X}_{i}$
     - [Second stage regression]{.fg}: Regress $Y_{i}$ on $\hat{X}_{i}$
       $$
       Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
       $$
       The TSLS estimators $\beta_{0}^{TSLS}$ and $\beta_{1}^{TSLS}$ are obtained from the second stage regression.
-      [Note:]{.note} OLS s.e. of second stage regression is incorrect. Use statistical software
+      [Note:]{.warning} OLS s.e. of second stage regression is incorrect. Use statistical software for estimation.
 
 
 ## Example: Angrist and Krueger (1991) {.tiny-slide .quote-slide}
@@ -401,7 +393,7 @@ Dependent variable: log weekly wages
 
 $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compulsory schooling.
 
-## Next Steps {.small-slide}
+## What's Next? {.small-slide}
 
 - General IV regression (additional regressors, multiple instruments)
   - Sargan J-Test of overidentifying restriction
@@ -660,9 +652,9 @@ What does the IV estimate capture?
 - Prediction error
 - [Causal effect using exogenous variation]{.correct}
 
-## IV: Instrument Validity {.small-slide}
+## Discussion: Instrument Exogeneity {.small-slide}
 
-Exclusion restriction may be an issue.
+Exclusion restriction is likely an issue.
 
 @albouy2012colonial:
 
