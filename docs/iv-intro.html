@@ -249,10 +249,10 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad i=1, \ldots, N
 \mathbb{E}[u_i|X_i] = 0
 \]</span> i.e.&nbsp;<span class="math inline">\(X_i\)</span> is <strong>exogenous</strong> and contains no information on <span class="math inline">\(u_i\)</span>.</li>
 <li>When <span class="math inline">\(\mathbb{E}[u_i|X_i] \ne 0\)</span>, <span class="math inline">\(X_i\)</span> is <strong>endogenous</strong> and <span class="math inline">\(\hat{\beta}^{OLS}\)</span> is <span class="fg">inconsistent</span> (i.e.&nbsp;invalid even in large samples).</li>
-<li>Example: <span class="citation" data-cites="angrist1991does">Angrist and Krueger (<a href="#/references" role="doc-biblioref" onclick="">1991</a>)</span> study the effect of compulsory schooling laws in the US on returns to education (see DAG).</li>
+<li>Example: <span class="citation" data-cites="angrist1991does">Angrist and Krueger (<a href="#/references" role="doc-biblioref" onclick="">1991</a>)</span> study the effect of compulsory schooling laws in the US on returns to education (see fig.).</li>
 </ul>
 </div><div class="column" style="width:30%;">
-<p><span class="highlight center">DAG: Omitted Variable</span></p>
+<p><span class="highlight center">Path diagram: Effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> with OV</span></p>
 <div class="cell" data-reveal="true" data-layout-align="default">
 <div class="cell-output-display">
 <div>
@@ -280,7 +280,7 @@ Y_{i} = \beta_{0} + \beta_{1} X_{i} + \beta_{2} {\color{orange} A_{i}} + u_{i}
 <li>If we omit <span class="math inline">\({\color{orange} A_{i}}\)</span> we estimate: <span class="math display">\[
 Y_{i} = \alpha_0 + \alpha_1 X_i + v_{i}
 \]</span> where <span class="math inline">\(v_{i}\)</span> is now the composite error <span class="math inline">\(v_{i} = \beta_{2} {\color{orange} A_{i}} + u_{i}\)</span></li>
-<li>We can show that (exercise): <span class="math display">\[
+<li>We can show that: <span class="math display">\[
 \text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, {\color{orange} A_{i}})}{\mathbb{V}(x)}
 \]</span></li>
 </ul>
@@ -385,20 +385,20 @@ Y_{i} = \beta_0 + \beta_1 X_{i} + u_{i}, \quad \mathbb{E}[u_{i}|X_{i}]\ne 0
 \boxed{\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} =\frac{s_{YZ}}{s_{ZX}}}
 \]</span></li>
 </ul>
-</section>
-<section id="large-sample-properties-of-beta_1iv" class="slide level2 small-slide">
-<h2>Large Sample Properties of <span class="math inline">\(\beta_{1}^{IV}\)</span></h2>
-<p><span class="fg">Consistency:</span> Due to LLN, <span class="math inline">\(s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)\)</span> and <span class="math inline">\(s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)\)</span>. It follows that: <span class="math display">\[
+<!-- ## Large Sample Properties of $\beta_{1}^{IV}$ {.small-slide}
+
+[Consistency:]{.fg} Due to LLN, $s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)$ and $s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)$. It follows that: 
+$$
 \boxed{\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1}
-\]</span></p>
-<!-- :::{.center}
-[$\beta_{1}^{IV}$ is consistent]{.alert}
-::: -->
-<p><span class="fg">Normality:</span> From the CLT, <span class="math display">\[
+$$
+
+[Normality:]{.fg} From the CLT,
+$$
 \beta_{1}^{IV} \stackrel{a}{\sim} N(\beta_1, \sigma^{2}_{\hat{\beta}_{1}^{TSLS}}) \quad \text{ where,}
-\]</span> <span class="math display">\[
+$$
+$$
 \boxed{\sigma^{2}_{\hat{\beta}_{1}^{IV}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}}
-\]</span></p>
+$$ -->
 </section>
 <section id="two-stage-least-squares-tsls-estimator" class="slide level2 small-slide">
 <h2>Two Stage Least Squares (TSLS) Estimator</h2>
@@ -614,24 +614,15 @@ Y_{i} = \beta_0 + \beta_1 \hat{X}_{i} + u_{i}
 
 </table>
 <p><span class="math inline">\(\beta_{1}^{TSLS} &gt; \beta_{1}^{OLS}\)</span> : school “completion” effect due to compulsory schooling.</p>
-</section>
-<section id="whats-next" class="slide level2 small-slide">
-<h2>What’s Next?</h2>
-<ul>
-<li>General IV regression (additional regressors, multiple instruments)
-<ul>
-<li>Sargan J-Test of overidentifying restriction</li>
-</ul></li>
-<li>Weak Instruments <span class="citation" data-cites="stock2002testing andrews2019weak">(<a href="#/references" role="doc-biblioref" onclick="">Stock and Yogo 2002</a>; <a href="#/references" role="doc-biblioref" onclick="">Andrews et al. 2019</a>)</span>
-<ul>
-<li>AK(1991) reanalysis <span class="citation" data-cites="bound1995problems">(<a href="#/references" role="doc-biblioref" onclick="">Bound et al. 1995</a>)</span></li>
-<li>Anderson-Rubin test</li>
-</ul></li>
-<li>Heterogenous treatment effects (LATE vs.&nbsp;ATE)
-<ul>
-<li>Compliers, Always takers, Never takers, Defiers</li>
-</ul></li>
-</ul>
+<!-- ## What's Next? {.small-slide}
+
+- General IV regression (additional regressors, multiple instruments)
+  - Sargan J-Test of overidentifying restriction
+- Weak Instruments [@stock2002testing; @andrews2019weak]
+  - AK(1991) reanalysis [@bound1995problems]
+  - Anderson-Rubin test
+- Heterogenous treatment effects (LATE vs. ATE)
+  - Compliers, Always takers, Never takers, Defiers -->
 <!-- # Tutorial {.section-slide} -->
 </section>
 <section id="exercise-sheet" class="slide level2 tiny-slide">
@@ -692,6 +683,9 @@ R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i}
 </section>
 <section id="ols-estimates" class="slide level2 small-slide">
 <h2>OLS Estimates</h2>
+<p><span class="math display">\[
+\log y_{i} = \mu + \alpha R_{i} + \mathbf{X}'_{i}\gamma + u_{i}
+\]</span></p>
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell">
@@ -745,6 +739,9 @@ R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i}
 </section>
 <section id="first-stage-regression" class="slide level2 small-slide">
 <h2>First Stage Regression</h2>
+<p><span class="math display">\[
+R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i}
+\]</span></p>
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell">
@@ -931,17 +928,8 @@ Acemoglu, Daron, Simon Johnson, and James A Robinson. 2012. <span>“The Colonia
 <div id="ref-albouy2012colonial" class="csl-entry" role="listitem">
 Albouy, David Y. 2012. <span>“The Colonial Origins of Comparative Development: An Empirical Investigation: Comment.”</span> <em>American Economic Review</em> 102 (6): 3059–76.
 </div>
-<div id="ref-andrews2019weak" class="csl-entry" role="listitem">
-Andrews, Isaiah, James H Stock, and Liyang Sun. 2019. <span>“Weak Instruments in Instrumental Variables Regression: Theory and Practice.”</span> <em>Annual Review of Economics</em> 11 (1): 727–53.
-</div>
 <div id="ref-angrist1991does" class="csl-entry" role="listitem">
 Angrist, Joshua D, and Alan B Krueger. 1991. <span>“Does Compulsory School Attendance Affect Schooling and Earnings?”</span> <em>The Quarterly Journal of Economics</em> 106 (4): 979–1014.
-</div>
-<div id="ref-bound1995problems" class="csl-entry" role="listitem">
-Bound, John, David A Jaeger, and Regina M Baker. 1995. <span>“Problems with Instrumental Variables Estimation When the Correlation Between the Instruments and the Endogenous Explanatory Variable Is Weak.”</span> <em>Journal of the American Statistical Association</em> 90 (430): 443–50.
-</div>
-<div id="ref-stock2002testing" class="csl-entry" role="listitem">
-Stock, James H, and Motohiro Yogo. 2002. <em>Testing for Weak Instruments in Linear IV Regression</em>. National Bureau of Economic Research Cambridge, Mass., USA.
 </div>
 </div>
 </section>

@@ -47,11 +47,11 @@ $$
 $$
 i.e. $X_i$ is **exogenous** and contains no information on $u_i$.
 - When $\mathbb{E}[u_i|X_i] \ne 0$, $X_i$ is **endogenous** and $\hat{\beta}^{OLS}$ is [inconsistent]{.fg} (i.e. invalid even in large samples).
-- Example: @angrist1991does study the effect of compulsory schooling laws in the US on returns to education (see DAG).
+- Example: @angrist1991does study the effect of compulsory schooling laws in the US on returns to education (see fig.).
 :::
 
 ::: {.column width="30%"}
-[DAG: Omitted Variable]{.highlight .center}
+[Path diagram: Effect of $X$ on $Y$ with OV]{.highlight .center}
 ```{mermaid}
 %%| echo: false
 flowchart TD
@@ -76,7 +76,7 @@ $$
 Y_{i} = \alpha_0 + \alpha_1 X_i + v_{i}
 $$
 where $v_{i}$ is now the composite error $v_{i} = \beta_{2} {\color{orange} A_{i}} + u_{i}$
-- We can show that (exercise):
+- We can show that:
 $$
 \text{plim } \hat{\alpha}_{1}^{OLS} = \beta_{1} + \frac{\text{Cov}(x_i, {\color{orange} A_{i}})}{\mathbb{V}(x)}
 $$
@@ -179,16 +179,12 @@ $$
 \boxed{\beta_{1}^{IV} = \frac{\text{Cov}(Y_{i},Z_{i})}{\text{Cov}(X_{i}, Z_{i})} =\frac{s_{YZ}}{s_{ZX}}}
 $$
 
-## Large Sample Properties of $\beta_{1}^{IV}$ {.small-slide}
+<!-- ## Large Sample Properties of $\beta_{1}^{IV}$ {.small-slide}
 
 [Consistency:]{.fg} Due to LLN, $s_{YZ} \xrightarrow{p} \text{Cov}(Z_i, Y_i)$ and $s_{XZ} \xrightarrow{p} \text{Cov}(Z_i, X_i)$. It follows that: 
 $$
 \boxed{\beta_{1}^{IV} = \frac{s_{YZ}}{s_{ZX}} \xrightarrow{p} \frac{\text{Cov}(Z_i, Y_i)}{\text{Cov}(Z_i, X_i)} = \beta_1}
 $$
-
-<!-- :::{.center}
-[$\beta_{1}^{IV}$ is consistent]{.alert}
-::: -->
 
 [Normality:]{.fg} From the CLT,
 $$
@@ -196,7 +192,7 @@ $$
 $$
 $$
 \boxed{\sigma^{2}_{\hat{\beta}_{1}^{IV}} = \frac{1}{n}\frac{\mathbb{V}[(Z_i - \mu_Z)u_i]}{[\text{Cov}(Z_{i}, X_{i})]^2}}
-$$
+$$ -->
 
 
 ## Two Stage Least Squares (TSLS) Estimator {.small-slide}
@@ -394,7 +390,7 @@ Dependent variable: log weekly wages
 
 $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compulsory schooling.
 
-## What's Next? {.small-slide}
+<!-- ## What's Next? {.small-slide}
 
 - General IV regression (additional regressors, multiple instruments)
   - Sargan J-Test of overidentifying restriction
@@ -402,7 +398,7 @@ $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compuls
   - AK(1991) reanalysis [@bound1995problems]
   - Anderson-Rubin test
 - Heterogenous treatment effects (LATE vs. ATE)
-  - Compliers, Always takers, Never takers, Defiers
+  - Compliers, Always takers, Never takers, Defiers -->
 
 <!-- # Tutorial {.section-slide} -->
 
@@ -466,6 +462,9 @@ flowchart TD
 
 ## OLS Estimates {.small-slide}
 
+$$
+\log y_{i} = \mu + \alpha R_{i} + \mathbf{X}'_{i}\gamma + u_{i}
+$$
 
 :::: {.columns}
 
@@ -527,6 +526,10 @@ Why is OLS biased in the AJR setting?
 - Incorrect standard errors
 
 ## First Stage Regression {.small-slide}
+
+$$
+R_{i} = \zeta + \beta \log M_{i} + \mathbf{X}'_{i} \delta + v_{i} 
+$$
 
 :::: {.columns}
 
