@@ -390,7 +390,7 @@ Dependent variable: log weekly wages
 
 $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compulsory schooling.
 
-<!-- ## What's Next? {.small-slide}
+## What's Next? {.small-slide}
 
 - General IV regression (additional regressors, multiple instruments)
   - Sargan J-Test of overidentifying restriction
@@ -398,7 +398,7 @@ $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compuls
   - AK(1991) reanalysis [@bound1995problems]
   - Anderson-Rubin test
 - Heterogenous treatment effects (LATE vs. ATE)
-  - Compliers, Always takers, Never takers, Defiers -->
+  - Compliers, Always takers, Never takers, Defiers
 
 <!-- # Tutorial {.section-slide} -->
 
