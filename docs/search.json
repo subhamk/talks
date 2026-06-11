@@ -116,7 +116,7 @@
     "href": "iv-intro.html#discussion-instrument-exogeneity",
     "title": "Instrumental Variable Method",
     "section": "Discussion: Instrument Exogeneity",
-    "text": "Discussion: Instrument Exogeneity\nExclusion restriction is likely an issue.\nAlbouy (2012):\n\nMeasurement Error: Doubts the reliability and comparability of European settler mortality rates used in AJR\n\n36 out of 64 assigned mortality rates based on conjecture\nclustering s.e. noticeably reduces significance\nuse of peak vs. average mortality rates\n\nWeak Instrument: Addressing some of these issues weakens the relationship between settler mortality rates and institutions ## References {.tiny-slide}\n\nAcemoglu et al. (2012):\n“Neither of Albouy’s claim is compelling.”"
+    "text": "Discussion: Instrument Exogeneity\nExclusion restriction is likely an issue.\nAlbouy (2012):\n\nMeasurement Error: Doubts the reliability and comparability of European settler mortality rates used in AJR\n\n36 out of 64 assigned mortality rates based on conjecture\nclustering s.e. noticeably reduces significance\nuse of peak vs. average mortality rates\n\nWeak Instrument: Addressing some of these issues weakens the relationship between settler mortality rates and institutions\n\nAcemoglu et al. (2012):\n“Neither of Albouy’s claim is compelling.”"
   },
   {
     "objectID": "iv-intro.html#references",

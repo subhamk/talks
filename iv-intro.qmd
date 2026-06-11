@@ -667,10 +667,10 @@ Exclusion restriction is likely an issue.
   - clustering s.e. noticeably reduces significance
   - use of peak vs. average mortality rates
 - **Weak Instrument**: Addressing some of these issues weakens the relationship between settler mortality rates and institutions
-## References {.tiny-slide}
+
 
 @acemoglu2012colonial:
 
 "Neither of Albouy's claim is compelling."
 
-## References
+## References {.tiny-slide}
