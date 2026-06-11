@@ -60,7 +60,7 @@
     "href": "iv-intro.html#whats-next",
     "title": "Instrumental Variable Method",
     "section": "What’s Next?",
-    "text": "What’s Next?\n\nGeneral IV regression (additional regressors, multiple instruments)\n\nSargan J-Test of overidentifying restriction\n\nWeak Instruments (Stock and Yogo 2002; Andrews et al. 2019)\n\nAK(1991) reanalysis (Bound et al. 1995)\nAnderson-Rubin test\n\nHeterogenous treatment effects (LATE vs. ATE)\n\nCompliers, Always takers, Never takers, Defiers"
+    "text": "What’s Next?\n\nLarge sample properties of TSLS estimates\nGeneral IV regression (additional regressors, multiple instruments)\n\nSargan J-Test of overidentifying restriction\n\nWeak Instruments (Stock and Yogo 2002; Andrews et al. 2019)\n\nAK(1991) reanalysis (Bound et al. 1995)\nAnderson-Rubin test\n\nHeterogenous treatment effects (LATE vs. ATE)\n\nCompliers, Always takers, Never takers, Defiers"
   },
   {
     "objectID": "iv-intro.html#exercise-sheet",

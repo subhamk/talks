@@ -392,6 +392,7 @@ $\beta_{1}^{TSLS} > \beta_{1}^{OLS}$ : school "completion" effect due to compuls
 
 ## What's Next? {.small-slide}
 
+- Large sample properties of TSLS estimates
 - General IV regression (additional regressors, multiple instruments)
   - Sargan J-Test of overidentifying restriction
 - Weak Instruments [@stock2002testing; @andrews2019weak]
